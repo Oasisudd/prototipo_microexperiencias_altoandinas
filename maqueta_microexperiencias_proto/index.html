@@ -10,9 +10,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Saira:wght@800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --ocre: #a5823c;
-      --verde-agua: #3e6d6b;
-      --azul-sal: #2b3345;
+      --ocre: #b38b3c;
+      --azul: #272d3b;
       --blanco: #ffffff;
     }
     * {
@@ -21,7 +20,7 @@
       padding: 0;
     }
     html, body {
-      background-color: var(--azul-sal);
+      background-color: var(--azul);
       color: var(--blanco);
       font-family: 'Saira', sans-serif;
       -webkit-font-smoothing: antialiased;
@@ -29,38 +28,63 @@
       width: 100%;
     }
 
-    /* Lienzo continuo infinito estilo Every Last Drop */
     #canvas-continuo {
       position: relative;
       width: 100vw;
-      /* Altura total del recorrido vertical (4 escenas fluidas) */
-      height: 480dvh;
+      height: 440dvh;
       overflow: hidden;
-      /* Transición continua de color ambiental */
-      background: linear-gradient(
-        180deg,
-        var(--ocre) 0%,
-        var(--ocre) 18%,
-        var(--verde-agua) 32%,
-        var(--verde-agua) 50%,
-        var(--azul-sal) 68%,
-        var(--azul-sal) 100%
-      );
+      background-color: var(--azul);
     }
 
-    /* Texturas de terreno integradas en el flujo */
-    .textura-fondo {
+    /* CAPAS DE SUELO (FONDOS REALES) */
+    .capa-suelo {
       position: absolute;
       left: 0;
       width: 100vw;
       background-size: cover;
       background-position: center;
       pointer-events: none;
-      opacity: 0.85;
-      mix-blend-mode: overlay;
+      z-index: 1;
     }
 
-    /* Stickers y piezas biológicas troqueladas */
+    .suelo-ocre {
+      top: 0;
+      height: 130dvh;
+      background-color: var(--ocre);
+      -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+      mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+    }
+
+    .suelo-laguna {
+      top: 100dvh;
+      height: 140dvh;
+      background-image: url('img/laguna_photosintesis.webp');
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
+      mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
+    }
+
+    .suelo-costra {
+      top: 215dvh;
+      height: 230dvh;
+      background-image: url('img/costra_sal.webp');
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 100%);
+      mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 100%);
+    }
+
+    .franja-cielo {
+      position: absolute;
+      top: 310dvh;
+      left: 0;
+      width: 100vw;
+      height: 40dvh;
+      background: var(--azul);
+      -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+      mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* PIEZAS Y STICKERS */
     .pieza {
       position: absolute;
       left: var(--x);
@@ -68,29 +92,44 @@
       width: var(--w);
       height: auto;
       will-change: transform;
-      filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.35));
+      filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.45));
       pointer-events: none;
-      z-index: 2;
+      z-index: 3;
     }
 
-    /* Textos integrados en el recorrido continuo */
+    /* CONTENEDOR DE TEXTO Y EFECTO KINETIC REVEAL */
     .bloque-texto {
       position: absolute;
       left: 7%;
       width: 86%;
       top: var(--y);
+      z-index: 5;
+      pointer-events: none;
       font-weight: 800;
       font-size: clamp(22px, 6.4vw, 32px);
       line-height: 1.18;
       letter-spacing: -0.01em;
       color: var(--blanco);
-      text-shadow: 0 3px 12px rgba(0, 0, 0, 0.85), 0 1px 3px rgba(0, 0, 0, 1);
-      z-index: 4;
-      pointer-events: none;
+      text-shadow: 0 3px 12px rgba(0, 0, 0, 0.9), 0 1px 4px rgba(0, 0, 0, 1);
+    }
+
+    .palabra {
+      display: inline-block;
+      white-space: pre;
+      opacity: 0;
+      transform: translateY(28px) scale(0.92);
+      transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease-out;
+      will-change: transform, opacity;
+    }
+
+    .bloque-texto.revelado .palabra {
+      opacity: 1;
+      transform: translateY(0) scale(1);
     }
 
     @media (prefers-reduced-motion: reduce) {
       .pieza { transform: none !important; }
+      .palabra { opacity: 1 !important; transform: none !important; transition: none !important; }
     }
   </style>
 </head>
@@ -98,53 +137,55 @@
 
   <main id="canvas-continuo">
 
-    <!-- FONDOS CONTINUOS SUPERPUESTOS -->
-    <div class="textura-fondo" style="top: 25%; height: 120dvh; background-image: url('img/laguna_photosintesis.webp'); opacity: 0.4;"></div>
-    <div class="textura-fondo" style="top: 55%; height: 180dvh; background-image: url('img/costra_sal.webp'); opacity: 0.35;"></div>
+    <!-- CAPAS DE FONDO CONTINUAS -->
+    <div class="capa-suelo suelo-ocre"></div>
+    <div class="capa-suelo suelo-laguna"></div>
+    <div class="capa-suelo suelo-costra"></div>
+    <div class="franja-cielo"></div>
 
-    <!-- SECCIÓN 1: SALAR Y BACTERIAS DOMINANTES (0% - 25% del lienzo) -->
+    <!-- ESCENA 1: SALAR Y BACTERIAS DOMINANTES -->
     <img class="pieza" data-speed="-0.15" src="img/salar_transparente.webp" alt="Salar"
          style="--x: -25%; --y: 6%; --w: 150%;">
-    <img class="pieza" data-speed="0.35" data-rot="15" src="img/bacterias_naranjas.webp" alt="Pseudomonadota"
+    <img class="pieza" data-speed="0.32" data-rot="15" src="img/bacterias_naranjas.webp" alt="Pseudomonadota"
          style="--x: -4%; --y: 3%; --w: 80%;">
     <img class="pieza" data-speed="-0.25" data-rot="-10" src="img/bacterias_moradas.webp" alt="Bacteroidota"
-         style="--x: 38%; --y: 12%; --w: 70%;">
+         style="--x: 38%; --y: 11%; --w: 70%;">
 
-    <p class="bloque-texto" style="--y: 18%;">
+    <p class="bloque-texto animar-texto" style="--y: 18%;">
       Pseudomonadota y Bacteroidota, dos grupos de bacterias, dominan casi todo el sistema.
     </p>
 
-    <!-- SECCIÓN 2: LUZ SOLAR Y CIANOBACTERIAS (25% - 50% del lienzo) -->
-    <img class="pieza" data-speed="0.45" data-rot="6" src="img/grupo_bacterias_borde_blanco.webp" alt="Cyanobacteriota"
-         style="--x: 10%; --y: 30%; --w: 76%;">
+    <!-- ESCENA 2: CIANOBACTERIAS Y SOL -->
+    <img class="pieza" data-speed="0.4" data-rot="6" src="img/grupo_bacterias_borde_blanco.webp" alt="Cyanobacteriota"
+         style="--x: 10%; --y: 29%; --w: 76%;">
 
-    <p class="bloque-texto" style="--y: 40%;">
+    <p class="bloque-texto animar-texto" style="--y: 38%;">
       Donde el agua es menos salada aparecen Cyanobacteriota y Chloroflexota, bacterias que aprovechan la luz del sol.
     </p>
 
-    <!-- SECCIÓN 3: EXTREMO SALINO Y ARQUEAS (50% - 75% del lienzo) -->
-    <p class="bloque-texto" style="--y: 53%;">
+    <!-- ESCENA 3: EXTREMO SALINO Y ARQUEAS -->
+    <p class="bloque-texto animar-texto" style="--y: 51%;">
       Donde la sal es extrema, aparecen arqueas halófilas como Halobacteriota y Nanoarchaeota.
     </p>
 
     <img class="pieza" data-speed="0.25" data-rot="18" src="img/salero.webp" alt="Salero"
-         style="--x: 6%; --y: 59%; --w: 38%;">
+         style="--x: 6%; --y: 56%; --w: 38%;">
     <img class="pieza" data-speed="-0.3" data-rot="-12" src="img/bacilo_transparente.webp" alt="Halobacteriota"
-         style="--x: 48%; --y: 61%; --w: 46%;">
-    <img class="pieza" data-speed="0.4" data-rot="10" src="img/celula_transparente.webp" alt="Nanoarchaeota"
-         style="--x: 18%; --y: 69%; --w: 68%;">
+         style="--x: 48%; --y: 59%; --w: 46%;">
+    <img class="pieza" data-speed="0.38" data-rot="10" src="img/celula_transparente.webp" alt="Nanoarchaeota"
+         style="--x: 18%; --y: 65%; --w: 68%;">
 
-    <!-- SECCIÓN 4: EL LUGAR Y LA MUESTRA (75% - 100% del lienzo) -->
-    <p class="bloque-texto" style="--y: 78%;">
+    <!-- ESCENA 4: EL FACTOR LUGAR (REUBICADA MÁS ARRIBA CON MARGEN) -->
+    <p class="bloque-texto animar-texto" style="--y: 71%;">
       Pero el lugar exacto donde se toma la muestra pesa incluso más que la sal misma.
     </p>
 
-    <img class="pieza" data-speed="0.35" data-rot="135" src="img/salero.webp" alt="Salero cayendo"
-         style="--x: -2%; --y: 83%; --w: 32%;">
-    <img class="pieza" data-speed="-0.2" src="img/muestra_maricunga_transparente.webp" alt="Tapete microbiano"
-         style="--x: -4%; --y: 87%; --w: 84%;">
-    <img class="pieza" data-speed="0.15" src="img/cientificotomandomuestra.webp" alt="Científica muestreando"
-         style="--x: 55%; --y: 84%; --w: 42%;">
+    <img class="pieza" data-speed="0.3" data-rot="135" src="img/salero.webp" alt="Salero cayendo"
+         style="--x: -2%; --y: 73%; --w: 32%;">
+    <img class="pieza" data-speed="0.18" src="img/cientificotomandomuestra.webp" alt="Científica muestreando"
+         style="--x: 55%; --y: 74%; --w: 42%;">
+    <img class="pieza" data-speed="-0.22" src="img/muestra_maricunga_transparente.webp" alt="Tapete microbiano"
+         style="--x: -4%; --y: 78%; --w: 84%;">
 
   </main>
 
@@ -152,26 +193,40 @@
     (function () {
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
+      // 1. Fragmentación de textos en spans para animación palabra por palabra
+      var textos = document.querySelectorAll('.animar-texto');
+      textos.forEach(function (el) {
+        var palabras = el.innerText.trim().split(/\s+/);
+        el.innerHTML = palabras.map(function (palabra, i) {
+          return '<span class="palabra" style="transition-delay:' + (i * 0.045).toFixed(3) + 's;">' + palabra + ' </span>';
+        }).join('');
+      });
+
       var piezas = Array.prototype.slice.call(document.querySelectorAll('[data-speed]'));
       var ticking = false;
 
-      function renderParallax() {
-        var scrollY = window.pageYOffset || document.documentElement.scrollTop;
+      function render() {
         var vh = window.innerHeight;
 
+        // Parallax de stickers
         piezas.forEach(function (el) {
           var rect = el.getBoundingClientRect();
-
-          // Solo calcular si está cerca del viewport para máximo rendimiento
           if (rect.bottom >= -150 && rect.top <= vh + 150) {
             var speed = parseFloat(el.dataset.speed);
             var rot = parseFloat(el.dataset.rot || 0);
-
-            // Desplazamiento reactivo continuo al scroll relativo a la pantalla
             var delta = (rect.top - vh * 0.5) * speed;
-            var rotStr = rot ? ' rotate(' + (rot + delta * 0.04) + 'deg)' : '';
-
+            var rotStr = rot ? ' rotate(' + (rot + delta * 0.03) + 'deg)' : '';
             el.style.transform = 'translate3d(0, ' + delta.toFixed(1) + 'px, 0)' + rotStr;
+          }
+        });
+
+        // Trigger de aparición de textos al acercarse al centro visual
+        textos.forEach(function (el) {
+          var rect = el.getBoundingClientRect();
+          if (rect.top < vh * 0.78 && rect.bottom > vh * 0.15) {
+            el.classList.add('revelado');
+          } else if (rect.top > vh * 0.95 || rect.bottom < 0) {
+            el.classList.remove('revelado');
           }
         });
 
@@ -181,12 +236,12 @@
       window.addEventListener('scroll', function () {
         if (!ticking) {
           ticking = true;
-          requestAnimationFrame(renderParallax);
+          requestAnimationFrame(render);
         }
       }, { passive: true });
 
-      window.addEventListener('resize', renderParallax);
-      renderParallax();
+      window.addEventListener('resize', render);
+      render();
     })();
   </script>
 </body>
