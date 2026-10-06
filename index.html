@@ -30,7 +30,7 @@
     #canvas-continuo {
       position: relative;
       width: 100vw;
-      height: 740dvh;
+      height: 760dvh;
       overflow: hidden;
       background-color: var(--azul);
     }
@@ -45,10 +45,9 @@
       z-index: 1;
     }
 
-    /* ESCENA 0: PANORÁMICA 360 VISIBLE Y ROTATORIA */
     .suelo-360-inicio {
       top: 0;
-      height: 120dvh;
+      height: 125dvh;
       background-image: url('panoramaLagunaCentralMaricunga_story.jpg');
       background-size: cover;
       background-repeat: repeat-x;
@@ -62,18 +61,16 @@
       100% { background-position: -2000px 50%; }
     }
 
-    /* Suelo Ocre */
     .suelo-ocre {
-      top: 105dvh;
-      height: 145dvh;
+      top: 110dvh;
+      height: 155dvh;
       background-color: var(--ocre);
       -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 25%, black 75%, transparent 100%);
       mask-image: linear-gradient(to bottom, transparent 0%, black 25%, black 75%, transparent 100%);
     }
 
-    /* Suelo Laguna */
     .suelo-laguna {
-      top: 225dvh;
+      top: 235dvh;
       height: 145dvh;
       background-image: url('laguna_photosintesis.png');
       background-size: cover;
@@ -81,9 +78,8 @@
       mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
     }
 
-    /* Costra salina tramo 1 */
     .suelo-costra-1 {
-      top: 345dvh;
+      top: 355dvh;
       height: 145dvh;
       background-image: url('dji_fly_20251127_100010_743_1764249990094_photo.jpg');
       background-size: cover;
@@ -91,10 +87,9 @@
       mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
     }
 
-    /* Costra salina tramo 2 (espejada) */
     .suelo-costra-2 {
-      top: 465dvh;
-      height: 155dvh;
+      top: 475dvh;
+      height: 160dvh;
       background-image: url('dji_fly_20251127_100010_743_1764249990094_photo.jpg');
       background-size: cover;
       transform: scaleX(-1);
@@ -119,7 +114,7 @@
       height: auto;
     }
 
-    /* BALANCEO ORGÁNICO DE ±5 GRADOS */
+    /* BALANCEO ORGÁNICO ±5 GRADOS */
     .balanceo-bacteria-1 {
       animation: rotarSuave1 4.5s ease-in-out infinite alternate;
     }
@@ -187,7 +182,6 @@
       transform: translateY(0) scale(1);
     }
 
-    /* INTRODUCCIÓN PRINCIPAL */
     .texto-intro {
       top: 32dvh;
       font-size: clamp(23px, 6.4vw, 34px);
@@ -225,7 +219,7 @@
       position: absolute;
       left: 20%;
       width: 60%;
-      top: 688dvh;
+      top: 705dvh;
       height: auto;
       z-index: 6;
       filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.6));
@@ -255,86 +249,105 @@
     </p>
     <div class="scroll-hint">Desliza para explorar ↓</div>
 
-    <!-- ESCENA 1: CANAL DE LAGUNAS Y BACTERIAS DOMINANTES[cite: 1] -->
-    <div class="envoltura-pieza difuminado-inferior" data-speed="-0.15"
-         style="top: 108dvh; left: -15%; width: 130%;">
-      <img class="pieza-img" src="salar_laguna2.png" alt="Canal de lagunas del Salar">
+    <!-- ESCENA 1: CANAL, BASE DE LAGUNA Y BACTERIAS DOMINANTES[cite: 1] -->
+    <!-- Base salar_laguna2.png difuminada -->
+    <div class="envoltura-pieza difuminado-inferior" data-speed="-0.12"
+         style="top: 106dvh; left: -15%; width: 130%;">
+      <img class="pieza-img" src="salar_laguna2.png" alt="Relieve Salar de Maricunga">
     </div>
 
-    <!-- Bacteria naranja (oscilación ±5°)[cite: 1] -->
+    <!-- Corredor biológico superpuesto en canal central -->
+    <div class="envoltura-pieza" data-speed="-0.16"
+         style="top: 114dvh; left: 6%; width: 90%;">
+      <img class="pieza-img" src="corredorBiologico.png" alt="Canal corredor biológico">
+    </div>
+
+    <!-- Bacteria naranja (Pseudomonadota)[cite: 1] -->
     <div class="envoltura-pieza" data-speed="0.25"
-         style="top: 116dvh; left: 4%; width: 56%;">
+         style="top: 116dvh; left: 4%; width: 52%;">
       <img class="pieza-img balanceo-bacteria-1" src="bacterias_naranjas.png" alt="Pseudomonadota">
     </div>
 
-    <!-- Bacteria morada (entrada lateral + oscilación ±5°)[cite: 1] -->
+    <!-- Bacteria morada (Bacteroidota - entrada lateral)[cite: 1] -->
     <div class="envoltura-pieza" data-speed="-0.18" data-slide-x="100"
-         style="top: 134dvh; left: 48%; width: 52%;">
+         style="top: 134dvh; left: 48%; width: 48%;">
       <img class="pieza-img balanceo-bacteria-2" src="bacterias_moradas.png" alt="Bacteroidota">
     </div>
 
-    <p class="bloque-texto animar-texto" style="top: 154dvh;">
-      Pseudomonadota y Bacteroidota, dos grupos de bacterias, dominan casi todo el sistema.
+    <!-- Bacteria verde (colonia complementaria) -->
+    <div class="envoltura-pieza" data-speed="0.2"
+         style="top: 146dvh; left: 8%; width: 44%;">
+      <img class="pieza-img balanceo-bacteria-3" src="bacterias_verdes.png" alt="Comunidad bacteriana verde">
+    </div>
+
+    <p class="bloque-texto animar-texto" style="top: 162dvh;">
+      Pseudomonadota y Bacteroidota, dos grupos de bacterias, dominan casi todo el sistema.[cite: 1]
     </p>
 
     <!-- ESCENA 2: CIANOBACTERIAS, SOL Y FOTOSÍNTESIS[cite: 2] -->
+    <!-- Sol destello -->
     <div class="envoltura-pieza" data-speed="-0.1"
-         style="top: 226dvh; left: 46%; width: 58%;">
+         style="top: 236dvh; left: 46%; width: 58%;">
       <img class="pieza-img pulso-sol" src="sol_destello.png" alt="Luz solar sobre la laguna">
     </div>
 
+    <!-- Filamentos cianobacterias[cite: 2] -->
     <div class="envoltura-pieza" data-speed="0.32"
-         style="top: 242dvh; left: 10%; width: 72%;">
+         style="top: 252dvh; left: 10%; width: 72%;">
       <img class="pieza-img balanceo-bacteria-3" src="grupo_bacterias_borde_blanco.png" alt="Cyanobacteriota">
     </div>
 
-    <p class="bloque-texto animar-texto" style="top: 268dvh;">
-      Donde el agua es menos salada aparecen Cyanobacteriota y Chloroflexota, bacterias que aprovechan la luz del sol.
+    <p class="bloque-texto animar-texto" style="top: 278dvh;">
+      Donde el agua es menos salada aparecen Cyanobacteriota y Chloroflexota, bacterias que aprovechan la luz del sol.[cite: 2]
     </p>
 
     <!-- ESCENA 3: EXTREMO SALINO, SALERO Y ARQUEAS[cite: 3] -->
-    <p class="bloque-texto animar-texto" style="top: 360dvh;">
-      Donde la sal es extrema, aparecen arqueas halófilas como Halobacteriota y Nanoarchaeota.
+    <p class="bloque-texto animar-texto" style="top: 370dvh;">
+      Donde la sal es extrema, aparecen arqueas halófilas como Halobacteriota y Nanoarchaeota.[cite: 3]
     </p>
 
-    <!-- Salero (única aparición)[cite: 3] -->
+    <!-- Salero transparente entrando desde el lateral izquierdo[cite: 3, 5] -->
     <div class="envoltura-pieza" data-speed="0.2" data-base-rot="18" data-slide-x="-90"
-         style="top: 375dvh; left: 4%; width: 34%;">
+         style="top: 385dvh; left: 4%; width: 34%;">
       <img class="pieza-img" src="salero_transparente.png" alt="Salero">
     </div>
 
+    <!-- Arquea bacilo[cite: 3] -->
     <div class="envoltura-pieza" data-speed="-0.22"
-         style="top: 374dvh; left: 46%; width: 48%;">
+         style="top: 384dvh; left: 46%; width: 48%;">
       <img class="pieza-img balanceo-bacteria-1" src="bacilo_transparente.png" alt="Halobacteriota">
     </div>
 
+    <!-- Arquea célula redonda[cite: 3] -->
     <div class="envoltura-pieza" data-speed="0.3"
-         style="top: 400dvh; left: 20%; width: 60%;">
+         style="top: 412dvh; left: 20%; width: 60%;">
       <img class="pieza-img balanceo-bacteria-2" src="celula_transparente.png" alt="Nanoarchaeota">
     </div>
 
     <!-- ESCENA 4: EL FACTOR LUGAR Y MUESTREO[cite: 4] -->
-    <p class="bloque-texto animar-texto" style="top: 484dvh;">
+    <p class="bloque-texto animar-texto" style="top: 494dvh;">
       Pero el lugar exacto donde se toma la muestra pesa incluso más que la sal misma.[cite: 4]
     </p>
 
+    <!-- Científica tomando muestra con entrada vertical estricta[cite: 4] -->
     <div class="envoltura-pieza" data-speed="0.22"
-         style="top: 504dvh; left: 48%; width: 46%;">
+         style="top: 514dvh; left: 48%; width: 46%;">
       <img class="pieza-img" src="cientificotomandomuestra.png" alt="Científica muestreando">
     </div>
 
+    <!-- Tapete microbiano posado en la superficie[cite: 4] -->
     <div class="envoltura-pieza" data-speed="-0.16"
-         style="top: 530dvh; left: -2%; width: 80%;">
+         style="top: 540dvh; left: -2%; width: 80%;">
       <img class="pieza-img" src="muestra_maricunga_transparente.png" alt="Tapete microbiano">
     </div>
 
     <!-- ESCENA 5: CIERRE -->
-    <p class="bloque-texto animar-texto" style="top: 615dvh;">
+    <p class="bloque-texto animar-texto" style="top: 625dvh;">
       Las arqueas no son bacterias: son otro dominio de la vida, especialistas en vivir al límite.
     </p>
 
     <!-- REMATE: CONTINUARÁ... -->
-    <p class="bloque-texto animar-texto texto-continuara" style="top: 654dvh; text-align: center; left: 0; width: 100%;">
+    <p class="bloque-texto animar-texto texto-continuara" style="top: 668dvh; text-align: center; left: 0; width: 100%;">
       Continuará...
     </p>
 
