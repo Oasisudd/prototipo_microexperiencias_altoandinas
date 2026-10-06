@@ -31,12 +31,13 @@
     #canvas-continuo {
       position: relative;
       width: 100vw;
-      height: 440dvh;
+      /* Altura expandida para albergar las 5 escenas de recorrido */
+      height: 540dvh;
       overflow: hidden;
       background-color: var(--azul);
     }
 
-    /* CAPAS DE SUELO (FONDOS REALES) */
+    /* CAPAS DE SUELO CONTINUAS */
     .capa-suelo {
       position: absolute;
       left: 0;
@@ -49,37 +50,46 @@
 
     .suelo-ocre {
       top: 0;
-      height: 130dvh;
+      height: 120dvh;
       background-color: var(--ocre);
       -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
       mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
     }
 
     .suelo-laguna {
-      top: 100dvh;
-      height: 140dvh;
+      top: 90dvh;
+      height: 130dvh;
       background-image: url('img/laguna_photosintesis.webp');
       -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
       mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
     }
 
     .suelo-costra {
-      top: 215dvh;
-      height: 230dvh;
+      top: 190dvh;
+      height: 190dvh;
       background-image: url('img/costra_sal.webp');
-      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 100%);
-      mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 100%);
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+      mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+    }
+
+    /* Fondo panorámico de Maricunga para la escena final */
+    .suelo-panorama {
+      top: 360dvh;
+      height: 180dvh;
+      background-image: url('img/panoramaLagunaCentralMaricunga_story.jpg');
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 100%);
+      mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 100%);
     }
 
     .franja-cielo {
       position: absolute;
-      top: 310dvh;
+      top: 270dvh;
       left: 0;
       width: 100vw;
-      height: 40dvh;
+      height: 35dvh;
       background: var(--azul);
-      -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
-      mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to bottom, black 45%, transparent 100%);
+      mask-image: linear-gradient(to bottom, black 45%, transparent 100%);
       z-index: 2;
       pointer-events: none;
     }
@@ -97,7 +107,18 @@
       z-index: 3;
     }
 
-    /* CONTENEDOR DE TEXTO Y EFECTO KINETIC REVEAL */
+    /* LOGO INSTITUCIONAL */
+    .logo-oasis {
+      position: absolute;
+      left: 15%;
+      width: 70%;
+      top: 505dvh;
+      height: auto;
+      z-index: 6;
+      filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.5));
+    }
+
+    /* TEXTOS DINÁMICOS */
     .bloque-texto {
       position: absolute;
       left: 7%;
@@ -106,11 +127,11 @@
       z-index: 5;
       pointer-events: none;
       font-weight: 800;
-      font-size: clamp(22px, 6.4vw, 32px);
+      font-size: clamp(22px, 6.2vw, 32px);
       line-height: 1.18;
       letter-spacing: -0.01em;
       color: var(--blanco);
-      text-shadow: 0 3px 12px rgba(0, 0, 0, 0.9), 0 1px 4px rgba(0, 0, 0, 1);
+      text-shadow: 0 3px 12px rgba(0, 0, 0, 0.95), 0 1px 4px rgba(0, 0, 0, 1);
     }
 
     .palabra {
@@ -137,55 +158,66 @@
 
   <main id="canvas-continuo">
 
-    <!-- CAPAS DE FONDO CONTINUAS -->
+    <!-- FONDOS -->
     <div class="capa-suelo suelo-ocre"></div>
     <div class="capa-suelo suelo-laguna"></div>
     <div class="capa-suelo suelo-costra"></div>
+    <div class="capa-suelo suelo-panorama"></div>
     <div class="franja-cielo"></div>
 
     <!-- ESCENA 1: SALAR Y BACTERIAS DOMINANTES -->
-    <img class="pieza" data-speed="-0.15" src="img/salar_transparente.webp" alt="Salar"
-         style="--x: -25%; --y: 6%; --w: 150%;">
+    <img class="pieza" data-speed="-0.15" src="img/salar_laguna2.png" alt="Salar y laguna"
+         style="--x: -20%; --y: 5%; --w: 140%;">
     <img class="pieza" data-speed="0.32" data-rot="15" src="img/bacterias_naranjas.webp" alt="Pseudomonadota"
-         style="--x: -4%; --y: 3%; --w: 80%;">
+         style="--x: -4%; --y: 2%; --w: 80%;">
     <img class="pieza" data-speed="-0.25" data-rot="-10" src="img/bacterias_moradas.webp" alt="Bacteroidota"
-         style="--x: 38%; --y: 11%; --w: 70%;">
+         style="--x: 38%; --y: 10%; --w: 70%;">
 
-    <p class="bloque-texto animar-texto" style="--y: 18%;">
+    <p class="bloque-texto animar-texto" style="--y: 15%;">
       Pseudomonadota y Bacteroidota, dos grupos de bacterias, dominan casi todo el sistema.
     </p>
 
     <!-- ESCENA 2: CIANOBACTERIAS Y SOL -->
     <img class="pieza" data-speed="0.4" data-rot="6" src="img/grupo_bacterias_borde_blanco.webp" alt="Cyanobacteriota"
-         style="--x: 10%; --y: 29%; --w: 76%;">
+         style="--x: 10%; --y: 23%; --w: 76%;">
 
-    <p class="bloque-texto animar-texto" style="--y: 38%;">
+    <p class="bloque-texto animar-texto" style="--y: 31%;">
       Donde el agua es menos salada aparecen Cyanobacteriota y Chloroflexota, bacterias que aprovechan la luz del sol.
     </p>
 
     <!-- ESCENA 3: EXTREMO SALINO Y ARQUEAS -->
-    <p class="bloque-texto animar-texto" style="--y: 51%;">
+    <p class="bloque-texto animar-texto" style="--y: 45%;">
       Donde la sal es extrema, aparecen arqueas halófilas como Halobacteriota y Nanoarchaeota.
     </p>
 
-    <img class="pieza" data-speed="0.25" data-rot="18" src="img/salero.webp" alt="Salero"
-         style="--x: 6%; --y: 56%; --w: 38%;">
+    <!-- Salero escena 3 -->
+    <img class="pieza" data-speed="0.25" data-rot="18" src="img/salero_transparente.png" alt="Salero"
+         style="--x: 5%; --y: 50%; --w: 36%;">
     <img class="pieza" data-speed="-0.3" data-rot="-12" src="img/bacilo_transparente.webp" alt="Halobacteriota"
-         style="--x: 48%; --y: 59%; --w: 46%;">
+         style="--x: 46%; --y: 52%; --w: 48%;">
     <img class="pieza" data-speed="0.38" data-rot="10" src="img/celula_transparente.webp" alt="Nanoarchaeota"
-         style="--x: 18%; --y: 65%; --w: 68%;">
+         style="--x: 20%; --y: 58%; --w: 68%;">
 
-    <!-- ESCENA 4: EL FACTOR LUGAR (REUBICADA MÁS ARRIBA CON MARGEN) -->
-    <p class="bloque-texto animar-texto" style="--y: 71%;">
+    <!-- ESCENA 4: EL FACTOR LUGAR Y MUESTREO -->
+    <p class="bloque-texto animar-texto" style="--y: 67%;">
       Pero el lugar exacto donde se toma la muestra pesa incluso más que la sal misma.
     </p>
 
-    <img class="pieza" data-speed="0.3" data-rot="135" src="img/salero.webp" alt="Salero cayendo"
-         style="--x: -2%; --y: 73%; --w: 32%;">
+    <!-- Salero invertido escena 4 -->
+    <img class="pieza" data-speed="0.3" data-rot="135" src="img/salero_transparente.png" alt="Salero cayendo"
+         style="--x: -4%; --y: 68%; --w: 30%;">
     <img class="pieza" data-speed="0.18" src="img/cientificotomandomuestra.webp" alt="Científica muestreando"
-         style="--x: 55%; --y: 74%; --w: 42%;">
+         style="--x: 52%; --y: 71%; --w: 44%;">
     <img class="pieza" data-speed="-0.22" src="img/muestra_maricunga_transparente.webp" alt="Tapete microbiano"
-         style="--x: -4%; --y: 78%; --w: 84%;">
+         style="--x: -4%; --y: 75%; --w: 85%;">
+
+    <!-- ESCENA 5: CIERRE CONCEPTUAL (ARQUEAS VS BACTERIAS) -->
+    <p class="bloque-texto animar-texto" style="--y: 86%;">
+      Las arqueas no son bacterias: son otro dominio de la vida, especialistas en vivir al límite.
+    </p>
+
+    <!-- LOGO CIERRE OASIS / ANILLO -->
+    <img class="logo-oasis" src="img/_LOGO DESCRIPTOR POSITIVO 02.png" alt="Logo Proyecto Anillo OASIS">
 
   </main>
 
@@ -193,7 +225,6 @@
     (function () {
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-      // 1. Fragmentación de textos en spans para animación palabra por palabra
       var textos = document.querySelectorAll('.animar-texto');
       textos.forEach(function (el) {
         var palabras = el.innerText.trim().split(/\s+/);
@@ -208,7 +239,6 @@
       function render() {
         var vh = window.innerHeight;
 
-        // Parallax de stickers
         piezas.forEach(function (el) {
           var rect = el.getBoundingClientRect();
           if (rect.bottom >= -150 && rect.top <= vh + 150) {
@@ -220,10 +250,9 @@
           }
         });
 
-        // Trigger de aparición de textos al acercarse al centro visual
         textos.forEach(function (el) {
           var rect = el.getBoundingClientRect();
-          if (rect.top < vh * 0.78 && rect.bottom > vh * 0.15) {
+          if (rect.top < vh * 0.80 && rect.bottom > vh * 0.15) {
             el.classList.add('revelado');
           } else if (rect.top > vh * 0.95 || rect.bottom < 0) {
             el.classList.remove('revelado');
