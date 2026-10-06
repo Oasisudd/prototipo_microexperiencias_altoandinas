@@ -30,7 +30,7 @@
     #canvas-continuo {
       position: relative;
       width: 100vw;
-      height: 640dvh;
+      height: 720dvh;
       overflow: hidden;
       background-color: var(--azul);
     }
@@ -48,7 +48,7 @@
 
     .suelo-360-inicio {
       top: 0;
-      height: 120dvh;
+      height: 130dvh;
       background-image: url('panoramaLagunaCentralMaricunga_story.jpg');
       background-size: auto 100%;
       background-repeat: repeat-x;
@@ -63,39 +63,39 @@
     }
 
     .suelo-ocre {
-      top: 95dvh;
-      height: 135dvh;
+      top: 105dvh;
+      height: 145dvh;
       background-color: var(--ocre);
       -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 25%, black 75%, transparent 100%);
       mask-image: linear-gradient(to bottom, transparent 0%, black 25%, black 75%, transparent 100%);
     }
 
     .suelo-laguna {
-      top: 200dvh;
-      height: 135dvh;
+      top: 225dvh;
+      height: 145dvh;
       background-image: url('laguna_photosintesis.png');
       -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
       mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
     }
 
     .suelo-costra-1 {
-      top: 305dvh;
-      height: 130dvh;
+      top: 345dvh;
+      height: 145dvh;
       background-image: url('dji_fly_20251127_100010_743_1764249990094_photo.jpg');
       -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
       mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
     }
 
     .suelo-costra-2 {
-      top: 410dvh;
-      height: 140dvh;
+      top: 465dvh;
+      height: 155dvh;
       background-image: url('dji_fly_20251127_100010_743_1764249990094_photo.jpg');
       transform: scaleX(-1);
       -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 85%, transparent 100%);
       mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 85%, transparent 100%);
     }
 
-    /* PIEZAS Y STICKERS TROQUELADOS (Posicionamiento explícito) */
+    /* PIEZAS Y STICKERS */
     .pieza {
       position: absolute;
       display: block;
@@ -104,6 +104,11 @@
       pointer-events: none;
       filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.45));
       will-change: transform;
+    }
+
+    .difuminado-inferior {
+      -webkit-mask-image: linear-gradient(to bottom, black 65%, transparent 98%);
+      mask-image: linear-gradient(to bottom, black 65%, transparent 98%);
     }
 
     /* TEXTOS */
@@ -118,7 +123,7 @@
       line-height: 1.18;
       letter-spacing: -0.01em;
       color: var(--blanco);
-      text-shadow: 0 3px 12px rgba(0, 0, 0, 0.95), 0 1px 4px rgba(0, 0, 1);
+      text-shadow: 0 3px 12px rgba(0, 0, 0, 0.95), 0 1px 4px rgba(0, 0, 0, 1);
     }
 
     .palabra {
@@ -160,7 +165,7 @@
       position: absolute;
       left: 20%;
       width: 60%;
-      top: 605dvh;
+      top: 680dvh;
       height: auto;
       z-index: 6;
       filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.6));
@@ -191,51 +196,60 @@
     <div class="scroll-hint">Desliza para explorar ↓</div>
 
     <!-- ESCENA 1: SALAR Y BACTERIAS DOMINANTES -->
-    <img class="pieza" data-speed="-0.15" src="salar_laguna2.png" alt="Canal de lagunas del Salar"
-         style="top: 112dvh; left: -20%; width: 140%;">
-    <img class="pieza" data-speed="0.32" data-base-rot="15" src="bacterias_naranjas.png" alt="Pseudomonadota"
-         style="top: 108dvh; left: -4%; width: 78%;">
-    <img class="pieza" data-speed="-0.25" data-base-rot="-10" src="bacterias_moradas.png" alt="Bacteroidota"
-         style="top: 116dvh; left: 38%; width: 68%;">
+    <img class="pieza difuminado-inferior" data-speed="-0.15" src="img/salar_transparente.webp" alt="Canal de lagunas del Salar"
+         style="top: 110dvh; left: -15%; width: 130%;">
 
-    <p class="bloque-texto animar-texto" style="top: 132dvh;">
+    <img class="pieza" data-speed="0.25" data-base-rot="15" src="bacterias_naranjas.png" alt="Pseudomonadota"
+         style="top: 116dvh; left: 4%; width: 56%;">
+
+    <!-- ENTRADA Y SALIDA HORIZONTAL: Bacteria morada entra desde la derecha (+100vw) y cruza -->
+    <img class="pieza" data-speed="-0.18" data-base-rot="-10" data-slide-x="100" src="bacterias_moradas.png" alt="Bacteroidota"
+         style="top: 134dvh; left: 48%; width: 52%;">
+
+    <p class="bloque-texto animar-texto" style="top: 154dvh;">
       Pseudomonadota y Bacteroidota, dos grupos de bacterias, dominan casi todo el sistema.
     </p>
 
     <!-- ESCENA 2: CIANOBACTERIAS Y LUZ SOLAR -->
-    <img class="pieza" data-speed="0.4" data-base-rot="6" src="grupo_bacterias_borde_blanco.png" alt="Cyanobacteriota"
-         style="top: 218dvh; left: 10%; width: 76%;">
+    <img class="pieza" data-speed="0.35" data-base-rot="6" src="grupo_bacterias_borde_blanco.png" alt="Cyanobacteriota"
+         style="top: 242dvh; left: 14%; width: 72%;">
 
-    <p class="bloque-texto animar-texto" style="top: 236dvh;">
+    <p class="bloque-texto animar-texto" style="top: 268dvh;">
       Donde el agua es menos salada aparecen Cyanobacteriota y Chloroflexota, bacterias que aprovechan la luz del sol.
     </p>
 
     <!-- ESCENA 3: EXTREMO SALINO Y ARQUEAS -->
-    <p class="bloque-texto animar-texto" style="top: 326dvh;">
+    <p class="bloque-texto animar-texto" style="top: 360dvh;">
       Donde la sal es extrema, aparecen arqueas halófilas como Halobacteriota y Nanoarchaeota.
     </p>
 
-    <img class="pieza" data-speed="0.25" data-base-rot="18" src="salero_transparente.png" alt="Salero"
-         style="top: 334dvh; left: 5%; width: 36%;">
-    <img class="pieza" data-speed="-0.3" data-base-rot="-12" src="bacilo_transparente.png" alt="Halobacteriota"
-         style="top: 338dvh; left: 46%; width: 48%;">
-    <img class="pieza" data-speed="0.38" data-base-rot="10" src="celula_transparente.png" alt="Nanoarchaeota"
-         style="top: 346dvh; left: 20%; width: 68%;">
+    <!-- ENTRADA Y SALIDA HORIZONTAL: Salero entra desde la izquierda (-90vw) -->
+    <img class="pieza" data-speed="0.2" data-base-rot="18" data-slide-x="-90" src="salero_transparente.png" alt="Salero"
+         style="top: 375dvh; left: 4%; width: 34%;">
+
+    <img class="pieza" data-speed="-0.22" data-base-rot="-18" src="bacilo_transparente.png" alt="Halobacteriota"
+         style="top: 374dvh; left: 46%; width: 48%;">
+
+    <img class="pieza" data-speed="0.3" data-base-rot="8" src="celula_transparente.png" alt="Nanoarchaeota"
+         style="top: 400dvh; left: 20%; width: 60%;">
 
     <!-- ESCENA 4: EL FACTOR LUGAR Y MUESTREO -->
-    <p class="bloque-texto animar-texto" style="top: 432dvh;">
+    <img class="pieza" data-speed="0.25" data-base-rot="135" src="salero_transparente.png" alt="Salero cayendo"
+         style="top: 480dvh; left: -2%; width: 28%;">
+
+    <p class="bloque-texto animar-texto" style="top: 488dvh;">
       Pero el lugar exacto donde se toma la muestra pesa incluso más que la sal misma.
     </p>
 
-    <img class="pieza" data-speed="0.3" data-base-rot="135" src="salero_transparente.png" alt="Salero cayendo"
-         style="top: 434dvh; left: -4%; width: 30%;">
-    <img class="pieza" data-speed="0.18" src="cientificotomandomuestra.png" alt="Científica muestreando"
-         style="top: 440dvh; left: 52%; width: 44%;">
-    <img class="pieza" data-speed="-0.22" src="muestra_maricunga_transparente.png" alt="Tapete microbiano"
-         style="top: 446dvh; left: -4%; width: 85%;">
+    <!-- ENTRADA Y SALIDA HORIZONTAL: Científica entra desde la derecha (+80vw) al encuadre -->
+    <img class="pieza" data-speed="0.15" data-slide-x="80" src="cientificotomandomuestra.png" alt="Científica muestreando"
+         style="top: 506dvh; left: 50%; width: 44%;">
+
+    <img class="pieza" data-speed="-0.18" src="muestra_maricunga_transparente.png" alt="Tapete microbiano"
+         style="top: 532dvh; left: -2%; width: 78%;">
 
     <!-- ESCENA 5: CIERRE -->
-    <p class="bloque-texto animar-texto" style="top: 540dvh;">
+    <p class="bloque-texto animar-texto" style="top: 615dvh;">
       Las arqueas no son bacterias: son otro dominio de la vida, especialistas en vivir al límite.
     </p>
 
@@ -256,21 +270,37 @@
         }).join('');
       });
 
-      var piezas = Array.prototype.slice.call(document.querySelectorAll('[data-speed]'));
+      var piezas = Array.prototype.slice.call(document.querySelectorAll('.pieza'));
       var ticking = false;
 
       function render() {
         var vh = window.innerHeight;
+        var vw = window.innerWidth;
 
-        // Cálculo seguro de parallax sin afectar coordenadas base
         piezas.forEach(function (el) {
           var rect = el.getBoundingClientRect();
-          if (rect.bottom >= -150 && rect.top <= vh + 150) {
+          if (rect.bottom >= -200 && rect.top <= vh + 200) {
             var speed = parseFloat(el.dataset.speed || 0);
             var baseRot = parseFloat(el.dataset.baseRot || 0);
-            var delta = (rect.top - vh * 0.5) * speed;
-            var rotStr = baseRot ? ' rotate(' + (baseRot + delta * 0.03) + 'deg)' : '';
-            el.style.transform = 'translate3d(0, ' + delta.toFixed(1) + 'px, 0)' + rotStr;
+            var slideXFactor = parseFloat(el.dataset.slideX || 0);
+
+            // Factor vertical centrado (-0.5 a +0.5 en el paso del viewport)
+            var progresoY = (rect.top - vh * 0.5) / vh;
+
+            // 1. Desplazamiento Y por parallax
+            var deltaY = progresoY * vh * speed;
+
+            // 2. Desplazamiento X: entra desde afuera, se asienta en el centro, y continúa su curso
+            var deltaX = 0;
+            if (slideXFactor !== 0) {
+              // progresoY > 0: está entrando desde abajo; progresoY < 0: saliendo hacia arriba
+              deltaX = progresoY * (vw * (slideXFactor / 100));
+            }
+
+            // 3. Rotación dinámica sutil
+            var rotStr = baseRot ? ' rotate(' + (baseRot + deltaY * 0.03) + 'deg)' : '';
+
+            el.style.transform = 'translate3d(' + deltaX.toFixed(1) + 'px, ' + deltaY.toFixed(1) + 'px, 0)' + rotStr;
           }
         });
 
