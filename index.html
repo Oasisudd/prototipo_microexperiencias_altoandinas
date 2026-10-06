@@ -30,7 +30,7 @@
     #canvas-continuo {
       position: relative;
       width: 100vw;
-      height: 720dvh;
+      height: 740dvh;
       overflow: hidden;
       background-color: var(--azul);
     }
@@ -112,7 +112,7 @@
       height: auto;
     }
 
-    /* BALANCEO ORGÁNICO DE ±5 GRADOS PARA BACTERIAS Y MICROORGANISMOS */
+    /* BALANCEO ORGÁNICO DE ±5 GRADOS */
     .balanceo-bacteria-1 {
       animation: rotarSuave1 4.5s ease-in-out infinite alternate;
     }
@@ -136,6 +136,16 @@
       100% { transform: rotate(5deg) translateY(4px); }
     }
 
+    /* PULSO SOLAR */
+    .pulso-sol {
+      animation: resplandorSol 6s ease-in-out infinite alternate;
+      mix-blend-mode: screen;
+    }
+    @keyframes resplandorSol {
+      0%   { transform: rotate(0deg) scale(0.96); opacity: 0.88; }
+      100% { transform: rotate(18deg) scale(1.08); opacity: 1; }
+    }
+
     .difuminado-inferior {
       -webkit-mask-image: linear-gradient(to bottom, black 55%, transparent 95%);
       mask-image: linear-gradient(to bottom, black 55%, transparent 95%);
@@ -153,7 +163,7 @@
       line-height: 1.18;
       letter-spacing: -0.01em;
       color: var(--blanco);
-      text-shadow: 0 3px 12px rgba(0, 0, 0, 0.95), 0 1px 4px rgba(0, 0, 0, 1);
+      text-shadow: 0 3px 12px rgba(0, 0, 0, 0.95), 0 1px 4px rgba(0, 0, 1);
     }
 
     .palabra {
@@ -168,6 +178,14 @@
     .bloque-texto.revelado .palabra {
       opacity: 1;
       transform: translateY(0) scale(1);
+    }
+
+    /* TEXTO CONTINUARÁ */
+    .texto-continuara {
+      font-size: clamp(18px, 4.5vw, 24px);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      opacity: 0.9;
     }
 
     /* INDICADOR INICIAL */
@@ -195,14 +213,14 @@
       position: absolute;
       left: 20%;
       width: 60%;
-      top: 680dvh;
+      top: 688dvh;
       height: auto;
       z-index: 6;
       filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.6));
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .suelo-360-inicio, .balanceo-bacteria-1, .balanceo-bacteria-2, .balanceo-bacteria-3 { animation: none !important; }
+      .suelo-360-inicio, .balanceo-bacteria-1, .balanceo-bacteria-2, .balanceo-bacteria-3, .pulso-sol { animation: none !important; }
       .envoltura-pieza { transform: none !important; }
       .palabra { opacity: 1 !important; transform: none !important; transition: none !important; }
     }
@@ -225,86 +243,87 @@
     </p>
     <div class="scroll-hint">Desliza para explorar ↓</div>
 
-    <!-- ESCENA 1: SALAR Y BACTERIAS DOMINANTES -->
+    <!-- ESCENA 1: SALAR Y BACTERIAS DOMINANTES[cite: 1] -->
     <div class="envoltura-pieza difuminado-inferior" data-speed="-0.15"
          style="top: 108dvh; left: -15%; width: 130%;">
       <img class="pieza-img" src="salar_laguna2.png" alt="Canal de lagunas del Salar">
     </div>
 
-    <!-- Bacteria naranja (oscilación ±5°) -->
+    <!-- Bacteria naranja[cite: 1] -->
     <div class="envoltura-pieza" data-speed="0.25"
          style="top: 116dvh; left: 4%; width: 56%;">
       <img class="pieza-img balanceo-bacteria-1" src="bacterias_naranjas.png" alt="Pseudomonadota">
     </div>
 
-    <!-- Bacteria morada (entra desde la derecha + oscilación ±5°) -->
+    <!-- Bacteria morada[cite: 1] -->
     <div class="envoltura-pieza" data-speed="-0.18" data-slide-x="100"
          style="top: 134dvh; left: 48%; width: 52%;">
       <img class="pieza-img balanceo-bacteria-2" src="bacterias_moradas.png" alt="Bacteroidota">
     </div>
 
     <p class="bloque-texto animar-texto" style="top: 154dvh;">
-      Pseudomonadota y Bacteroidota, dos grupos de bacterias, dominan casi todo el sistema.
+      Pseudomonadota y Bacteroidota, dos grupos de bacterias, dominan casi todo el sistema.[cite: 1]
     </p>
 
-    <!-- ESCENA 2: CIANOBACTERIAS Y LUZ SOLAR (oscilación ±5°) -->
-    <div class="envoltura-pieza" data-speed="0.35"
-         style="top: 242dvh; left: 14%; width: 72%;">
+    <!-- ESCENA 2: CIANOBACTERIAS, SOL Y FOTOSÍNTESIS[cite: 2] -->
+    <div class="envoltura-pieza" data-speed="-0.1"
+         style="top: 226dvh; left: 46%; width: 58%;">
+      <img class="pieza-img pulso-sol" src="sol_destello.png" alt="Luz solar sobre la laguna">
+    </div>
+
+    <div class="envoltura-pieza" data-speed="0.32"
+         style="top: 242dvh; left: 10%; width: 72%;">
       <img class="pieza-img balanceo-bacteria-3" src="grupo_bacterias_borde_blanco.png" alt="Cyanobacteriota">
     </div>
 
     <p class="bloque-texto animar-texto" style="top: 268dvh;">
-      Donde el agua es menos salada aparecen Cyanobacteriota y Chloroflexota, bacterias que aprovechan la luz del sol.
+      Donde el agua es menos salada aparecen Cyanobacteriota y Chloroflexota, bacterias que aprovechan la luz del sol.[cite: 2]
     </p>
 
-    <!-- ESCENA 3: EXTREMO SALINO Y ARQUEAS -->
+    <!-- ESCENA 3: EXTREMO SALINO, SALERO Y ARQUEAS[cite: 3] -->
     <p class="bloque-texto animar-texto" style="top: 360dvh;">
-      Donde la sal es extrema, aparecen arqueas halófilas como Halobacteriota y Nanoarchaeota.
+      Donde la sal es extrema, aparecen arqueas halófilas como Halobacteriota y Nanoarchaeota.[cite: 3]
     </p>
 
-    <!-- Salero entra por el lateral -->
+    <!-- Única aparición del salero: entra desde la izquierda[cite: 3] -->
     <div class="envoltura-pieza" data-speed="0.2" data-base-rot="18" data-slide-x="-90"
          style="top: 375dvh; left: 4%; width: 34%;">
       <img class="pieza-img" src="salero_transparente.png" alt="Salero">
     </div>
 
-    <!-- Arquea bacilo (oscilación ±5°) -->
     <div class="envoltura-pieza" data-speed="-0.22"
          style="top: 374dvh; left: 46%; width: 48%;">
       <img class="pieza-img balanceo-bacteria-1" src="bacilo_transparente.png" alt="Halobacteriota">
     </div>
 
-    <!-- Arquea célula (oscilación ±5°) -->
     <div class="envoltura-pieza" data-speed="0.3"
          style="top: 400dvh; left: 20%; width: 60%;">
       <img class="pieza-img balanceo-bacteria-2" src="celula_transparente.png" alt="Nanoarchaeota">
     </div>
 
-    <!-- ESCENA 4: EL FACTOR LUGAR Y MUESTREO -->
-    <div class="envoltura-pieza" data-speed="0.25" data-base-rot="135"
-         style="top: 480dvh; left: -2%; width: 28%;">
-      <img class="pieza-img" src="salero_transparente.png" alt="Salero cayendo">
-    </div>
-
-    <p class="bloque-texto animar-texto" style="top: 488dvh;">
-      Pero el lugar exacto donde se toma la muestra pesa incluso más que la sal misma.
+    <!-- ESCENA 4: EL FACTOR LUGAR Y MUESTREO (SIN SALERO)[cite: 4] -->
+    <p class="bloque-texto animar-texto" style="top: 484dvh;">
+      Pero el lugar exacto donde se toma la muestra pesa incluso más que la sal misma.[cite: 4]
     </p>
 
-    <!-- Científica con ENTRADA ESTRICTAMENTE VERTICAL (sin vuelo horizontal) -->
     <div class="envoltura-pieza" data-speed="0.22"
-         style="top: 504dvh; left: 50%; width: 44%;">
+         style="top: 504dvh; left: 48%; width: 46%;">
       <img class="pieza-img" src="cientificotomandomuestra.png" alt="Científica muestreando">
     </div>
 
-    <!-- Tapete microbiano posado en la superficie -->
     <div class="envoltura-pieza" data-speed="-0.16"
-         style="top: 532dvh; left: -2%; width: 78%;">
+         style="top: 530dvh; left: -2%; width: 80%;">
       <img class="pieza-img" src="muestra_maricunga_transparente.png" alt="Tapete microbiano">
     </div>
 
     <!-- ESCENA 5: CIERRE -->
     <p class="bloque-texto animar-texto" style="top: 615dvh;">
       Las arqueas no son bacterias: son otro dominio de la vida, especialistas en vivir al límite.
+    </p>
+
+    <!-- REMATE: CONTINUARÁ... -->
+    <p class="bloque-texto animar-texto texto-continuara" style="top: 654dvh; text-align: center; left: 0; width: 100%;">
+      Continuará...
     </p>
 
     <!-- LOGO OASIS -->
@@ -341,7 +360,6 @@
             var progresoY = (rect.top - vh * 0.5) / vh;
             var deltaY = progresoY * vh * speed;
 
-            // Desplazamiento X solo para elementos que explícitamente tengan data-slide-x
             var deltaX = 0;
             if (slideXFactor !== 0) {
               deltaX = progresoY * (vw * (slideXFactor / 100));
