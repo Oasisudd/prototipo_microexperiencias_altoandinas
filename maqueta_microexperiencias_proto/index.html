@@ -31,7 +31,6 @@
     #canvas-continuo {
       position: relative;
       width: 100vw;
-      /* Altura expandida para albergar las 5 escenas de recorrido */
       height: 540dvh;
       overflow: hidden;
       background-color: var(--azul);
@@ -59,7 +58,7 @@
     .suelo-laguna {
       top: 90dvh;
       height: 130dvh;
-      background-image: url('img/laguna_photosintesis.webp');
+      background-image: url('../laguna_photosintesis.png');
       -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
       mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
     }
@@ -67,16 +66,15 @@
     .suelo-costra {
       top: 190dvh;
       height: 190dvh;
-      background-image: url('img/costra_sal.webp');
+      background-image: url('../dji_fly_20251127_100010_743_1764249990094_photo.jpg');
       -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
       mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
     }
 
-    /* Fondo panorámico de Maricunga para la escena final */
     .suelo-panorama {
       top: 360dvh;
       height: 180dvh;
-      background-image: url('img/panoramaLagunaCentralMaricunga_story.jpg');
+      background-image: url('../panoramaLagunaCentralMaricunga_story.jpg');
       -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 100%);
       mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 100%);
     }
@@ -107,7 +105,7 @@
       z-index: 3;
     }
 
-    /* LOGO INSTITUCIONAL */
+    /* LOGO INSTITUCIONAL FINAL */
     .logo-oasis {
       position: absolute;
       left: 15%;
@@ -166,11 +164,11 @@
     <div class="franja-cielo"></div>
 
     <!-- ESCENA 1: SALAR Y BACTERIAS DOMINANTES -->
-    <img class="pieza" data-speed="-0.15" src="img/salar_laguna2.png" alt="Salar y laguna"
+    <img class="pieza" data-speed="-0.15" src="../salar_laguna2.png" alt="Salar y laguna"
          style="--x: -20%; --y: 5%; --w: 140%;">
-    <img class="pieza" data-speed="0.32" data-rot="15" src="img/bacterias_naranjas.webp" alt="Pseudomonadota"
+    <img class="pieza" data-speed="0.32" data-rot="15" src="../bacterias_naranjas.png" alt="Pseudomonadota"
          style="--x: -4%; --y: 2%; --w: 80%;">
-    <img class="pieza" data-speed="-0.25" data-rot="-10" src="img/bacterias_moradas.webp" alt="Bacteroidota"
+    <img class="pieza" data-speed="-0.25" data-rot="-10" src="../bacterias_moradas.png" alt="Bacteroidota"
          style="--x: 38%; --y: 10%; --w: 70%;">
 
     <p class="bloque-texto animar-texto" style="--y: 15%;">
@@ -178,7 +176,7 @@
     </p>
 
     <!-- ESCENA 2: CIANOBACTERIAS Y SOL -->
-    <img class="pieza" data-speed="0.4" data-rot="6" src="img/grupo_bacterias_borde_blanco.webp" alt="Cyanobacteriota"
+    <img class="pieza" data-speed="0.4" data-rot="6" src="../grupo_bacterias_borde_blanco.png" alt="Cyanobacteriota"
          style="--x: 10%; --y: 23%; --w: 76%;">
 
     <p class="bloque-texto animar-texto" style="--y: 31%;">
@@ -190,12 +188,11 @@
       Donde la sal es extrema, aparecen arqueas halófilas como Halobacteriota y Nanoarchaeota.
     </p>
 
-    <!-- Salero escena 3 -->
-    <img class="pieza" data-speed="0.25" data-rot="18" src="img/salero_transparente.png" alt="Salero"
+    <img class="pieza" data-speed="0.25" data-rot="18" src="../salero_transparente.png" alt="Salero"
          style="--x: 5%; --y: 50%; --w: 36%;">
-    <img class="pieza" data-speed="-0.3" data-rot="-12" src="img/bacilo_transparente.webp" alt="Halobacteriota"
+    <img class="pieza" data-speed="-0.3" data-rot="-12" src="../bacilo_transparente.png" alt="Halobacteriota"
          style="--x: 46%; --y: 52%; --w: 48%;">
-    <img class="pieza" data-speed="0.38" data-rot="10" src="img/celula_transparente.webp" alt="Nanoarchaeota"
+    <img class="pieza" data-speed="0.38" data-rot="10" src="../celula_transparente.png" alt="Nanoarchaeota"
          style="--x: 20%; --y: 58%; --w: 68%;">
 
     <!-- ESCENA 4: EL FACTOR LUGAR Y MUESTREO -->
@@ -203,21 +200,20 @@
       Pero el lugar exacto donde se toma la muestra pesa incluso más que la sal misma.
     </p>
 
-    <!-- Salero invertido escena 4 -->
-    <img class="pieza" data-speed="0.3" data-rot="135" src="img/salero_transparente.png" alt="Salero cayendo"
+    <img class="pieza" data-speed="0.3" data-rot="135" src="../salero_transparente.png" alt="Salero cayendo"
          style="--x: -4%; --y: 68%; --w: 30%;">
-    <img class="pieza" data-speed="0.18" src="img/cientificotomandomuestra.webp" alt="Científica muestreando"
+    <img class="pieza" data-speed="0.18" src="../cientificotomandomuestra.png" alt="Científica muestreando"
          style="--x: 52%; --y: 71%; --w: 44%;">
-    <img class="pieza" data-speed="-0.22" src="img/muestra_maricunga_transparente.webp" alt="Tapete microbiano"
+    <img class="pieza" data-speed="-0.22" src="../muestra_maricunga_transparente.png" alt="Tapete microbiano"
          style="--x: -4%; --y: 75%; --w: 85%;">
 
-    <!-- ESCENA 5: CIERRE CONCEPTUAL (ARQUEAS VS BACTERIAS) -->
+    <!-- ESCENA 5: CIERRE -->
     <p class="bloque-texto animar-texto" style="--y: 86%;">
       Las arqueas no son bacterias: son otro dominio de la vida, especialistas en vivir al límite.
     </p>
 
-    <!-- LOGO CIERRE OASIS / ANILLO -->
-    <img class="logo-oasis" src="img/_LOGO DESCRIPTOR POSITIVO 02.png" alt="Logo Proyecto Anillo OASIS">
+    <!-- LOGO FINAL -->
+    <img class="logo-oasis" src="../_LOGO%20DESCRIPTOR%20POSITIVO%2002.png" alt="Logo OASIS">
 
   </main>
 
