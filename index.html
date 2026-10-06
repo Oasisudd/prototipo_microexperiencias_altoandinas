@@ -31,7 +31,7 @@
     #canvas-continuo {
       position: relative;
       width: 100vw;
-      height: 520dvh;
+      height: 600dvh;
       overflow: hidden;
       background-color: var(--azul);
     }
@@ -47,16 +47,33 @@
       z-index: 1;
     }
 
-    .suelo-ocre {
+    /* ESCENA 0: INICIO 360 PANORÁMICO CONTINUO */
+    .suelo-360-inicio {
       top: 0;
-      height: 120dvh;
+      height: 140dvh;
+      background-image: url('panoramaLagunaCentralMaricunga_story.jpg');
+      background-size: auto 100%;
+      background-repeat: repeat-x;
+      animation: girar360 45s linear infinite;
+      -webkit-mask-image: linear-gradient(to bottom, black 75%, transparent 100%);
+      mask-image: linear-gradient(to bottom, black 75%, transparent 100%);
+    }
+
+    @keyframes girar360 {
+      0% { background-position-x: 0; }
+      100% { background-position-x: 1000vw; }
+    }
+
+    .suelo-ocre {
+      top: 110dvh;
+      height: 130dvh;
       background-color: var(--ocre);
-      -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
-      mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 25%, black 75%, transparent 100%);
+      mask-image: linear-gradient(to bottom, transparent 0%, black 25%, black 75%, transparent 100%);
     }
 
     .suelo-laguna {
-      top: 90dvh;
+      top: 210dvh;
       height: 130dvh;
       background-image: url('laguna_photosintesis.png');
       -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
@@ -64,24 +81,16 @@
     }
 
     .suelo-costra {
-      top: 190dvh;
-      height: 180dvh;
+      top: 310dvh;
+      height: 190dvh;
       background-image: url('dji_fly_20251127_100010_743_1764249990094_photo.jpg');
       -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
       mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
     }
 
-    .suelo-panorama {
-      top: 340dvh;
-      height: 180dvh;
-      background-image: url('panoramaLagunaCentralMaricunga_story.jpg');
-      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 100%);
-      mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 100%);
-    }
-
     .franja-cielo {
       position: absolute;
-      top: 260dvh;
+      top: 380dvh;
       left: 0;
       width: 100vw;
       height: 35dvh;
@@ -135,18 +144,39 @@
       transform: translateY(0) scale(1);
     }
 
+    /* INDICADOR INICIAL */
+    .scroll-hint {
+      position: absolute;
+      top: 82dvh;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      font-size: 13px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      opacity: 0.8;
+      z-index: 5;
+      animation: rebotar 2s infinite ease-in-out;
+    }
+
+    @keyframes rebotar {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(8px); }
+    }
+
     /* LOGO INSTITUCIONAL CIERRE */
     .logo-oasis {
       position: absolute;
       left: 15%;
       width: 70%;
-      top: 485dvh;
+      top: 565dvh;
       height: auto;
       z-index: 6;
       filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.6));
     }
 
     @media (prefers-reduced-motion: reduce) {
+      .suelo-360-inicio { animation: none !important; }
       .pieza { transform: none !important; }
       .palabra { opacity: 1 !important; transform: none !important; transition: none !important; }
     }
@@ -157,62 +187,70 @@
   <main id="canvas-continuo">
 
     <!-- FONDOS -->
+    <div class="capa-suelo suelo-360-inicio"></div>
     <div class="capa-suelo suelo-ocre"></div>
     <div class="capa-suelo suelo-laguna"></div>
     <div class="capa-suelo suelo-costra"></div>
-    <div class="capa-suelo suelo-panorama"></div>
     <div class="franja-cielo"></div>
 
-    <!-- ESCENA 1: SALAR Y BACTERIAS DOMINANTES -->
-    <img class="pieza" data-speed="-0.15" src="salar_laguna2.png" alt="Salar y laguna"
-         style="--x: -20%; --y: 5%; --w: 140%;">
-    <img class="pieza" data-speed="0.32" data-rot="15" src="bacterias_naranjas.png" alt="Pseudomonadota"
-         style="--x: -4%; --y: 2%; --w: 80%;">
-    <img class="pieza" data-speed="-0.25" data-rot="-10" src="bacterias_moradas.png" alt="Bacteroidota"
-         style="--x: 38%; --y: 10%; --w: 70%;">
+    <!-- ESCENA 0: INICIO 360 PANORÁMICO -->
+    <p class="bloque-texto animar-texto" style="--y: 28%;">
+      Salar de Maricunga.<br>Un laboratorio natural a más de 3.700 metros de altura.
+    </p>
+    <div class="scroll-hint">Desliza para explorar ↓</div>
 
-    <p class="bloque-texto animar-texto" style="--y: 15%;">
+    <!-- ESCENA 1: CANAL DE LAGUNAS Y BACTERIAS DOMINANTES -->
+    <!-- Canal de lagunas / relieve salino -->
+    <img class="pieza" data-speed="-0.15" src="img/salar_transparente.webp" alt="Canal de lagunas del Salar"
+         style="--x: -22%; --y: 19%; --w: 145%;">
+    <!-- Bacterias dominantes superpuestas -->
+    <img class="pieza" data-speed="0.32" data-rot="15" src="bacterias_naranjas.png" alt="Pseudomonadota"
+         style="--x: -4%; --y: 16%; --w: 80%;">
+    <img class="pieza" data-speed="-0.25" data-rot="-10" src="bacterias_moradas.png" alt="Bacteroidota"
+         style="--x: 38%; --y: 23%; --w: 70%;">
+
+    <p class="bloque-texto animar-texto" style="--y: 27%;">
       Pseudomonadota y Bacteroidota, dos grupos de bacterias, dominan casi todo el sistema.
     </p>
 
-    <!-- ESCENA 2: CIANOBACTERIAS Y SOL -->
+    <!-- ESCENA 2: CIANOBACTERIAS Y SOL (Laguna) -->
     <img class="pieza" data-speed="0.4" data-rot="6" src="grupo_bacterias_borde_blanco.png" alt="Cyanobacteriota"
-         style="--x: 10%; --y: 23%; --w: 76%;">
+         style="--x: 10%; --y: 38%; --w: 76%;">
 
-    <p class="bloque-texto animar-texto" style="--y: 31%;">
+    <p class="bloque-texto animar-texto" style="--y: 44%;">
       Donde el agua es menos salada aparecen Cyanobacteriota y Chloroflexota, bacterias que aprovechan la luz del sol.
     </p>
 
     <!-- ESCENA 3: EXTREMO SALINO Y ARQUEAS -->
-    <p class="bloque-texto animar-texto" style="--y: 45%;">
+    <p class="bloque-texto animar-texto" style="--y: 57%;">
       Donde la sal es extrema, aparecen arqueas halófilas como Halobacteriota y Nanoarchaeota.
     </p>
 
     <img class="pieza" data-speed="0.25" data-rot="18" src="salero_transparente.png" alt="Salero"
-         style="--x: 5%; --y: 50%; --w: 36%;">
+         style="--x: 5%; --y: 61%; --w: 36%;">
     <img class="pieza" data-speed="-0.3" data-rot="-12" src="bacilo_transparente.png" alt="Halobacteriota"
-         style="--x: 46%; --y: 52%; --w: 48%;">
+         style="--x: 46%; --y: 63%; --w: 48%;">
     <img class="pieza" data-speed="0.38" data-rot="10" src="celula_transparente.png" alt="Nanoarchaeota"
-         style="--x: 20%; --y: 58%; --w: 68%;">
+         style="--x: 20%; --y: 68%; --w: 68%;">
 
     <!-- ESCENA 4: EL FACTOR LUGAR Y MUESTREO -->
-    <p class="bloque-texto animar-texto" style="--y: 67%;">
+    <p class="bloque-texto animar-texto" style="--y: 77%;">
       Pero el lugar exacto donde se toma la muestra pesa incluso más que la sal misma.
     </p>
 
     <img class="pieza" data-speed="0.3" data-rot="135" src="salero_transparente.png" alt="Salero cayendo"
-         style="--x: -4%; --y: 68%; --w: 30%;">
+         style="--x: -4%; --y: 78%; --w: 30%;">
     <img class="pieza" data-speed="0.18" src="cientificotomandomuestra.png" alt="Científica muestreando"
-         style="--x: 52%; --y: 71%; --w: 44%;">
+         style="--x: 52%; --y: 81%; --w: 44%;">
     <img class="pieza" data-speed="-0.22" src="muestra_maricunga_transparente.png" alt="Tapete microbiano"
-         style="--x: -4%; --y: 75%; --w: 85%;">
+         style="--x: -4%; --y: 84%; --w: 85%;">
 
     <!-- ESCENA 5: CIERRE -->
-    <p class="bloque-texto animar-texto" style="--y: 84%;">
+    <p class="bloque-texto animar-texto" style="--y: 93%;">
       Las arqueas no son bacterias: son otro dominio de la vida, especialistas en vivir al límite.
     </p>
 
-    <!-- LOGO FINAL (codificado para evitar problemas con los espacios del nombre) -->
+    <!-- LOGO FINAL -->
     <img class="logo-oasis" src="_LOGO%20DESCRIPTOR%20POSITIVO%2002.png" alt="Logo OASIS">
 
   </main>
