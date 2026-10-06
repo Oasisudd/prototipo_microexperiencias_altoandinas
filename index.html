@@ -35,33 +35,34 @@
       background-color: var(--azul);
     }
 
-    /* CAPAS DE SUELO (FONDOS REALES) */
+    /* CAPAS DE FONDO Y SUELOS */
     .capa-suelo {
       position: absolute;
       left: 0;
       width: 100vw;
-      background-size: cover;
       background-position: center;
       pointer-events: none;
       z-index: 1;
     }
 
+    /* ESCENA 0: PANORÁMICA 360 VISIBLE Y ROTATORIA */
     .suelo-360-inicio {
       top: 0;
-      height: 130dvh;
+      height: 120dvh;
       background-image: url('panoramaLagunaCentralMaricunga_story.jpg');
-      background-size: auto 100%;
+      background-size: cover;
       background-repeat: repeat-x;
-      animation: girar360 45s linear infinite;
-      -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
-      mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+      animation: girar360 40s linear infinite;
+      -webkit-mask-image: linear-gradient(to bottom, black 75%, transparent 100%);
+      mask-image: linear-gradient(to bottom, black 75%, transparent 100%);
     }
 
     @keyframes girar360 {
-      0% { background-position-x: 0; }
-      100% { background-position-x: 1000vw; }
+      0%   { background-position: 0 50%; }
+      100% { background-position: -2000px 50%; }
     }
 
+    /* Suelo Ocre */
     .suelo-ocre {
       top: 105dvh;
       height: 145dvh;
@@ -70,32 +71,38 @@
       mask-image: linear-gradient(to bottom, transparent 0%, black 25%, black 75%, transparent 100%);
     }
 
+    /* Suelo Laguna */
     .suelo-laguna {
       top: 225dvh;
       height: 145dvh;
       background-image: url('laguna_photosintesis.png');
+      background-size: cover;
       -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
       mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
     }
 
+    /* Costra salina tramo 1 */
     .suelo-costra-1 {
       top: 345dvh;
       height: 145dvh;
       background-image: url('dji_fly_20251127_100010_743_1764249990094_photo.jpg');
+      background-size: cover;
       -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
       mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
     }
 
+    /* Costra salina tramo 2 (espejada) */
     .suelo-costra-2 {
       top: 465dvh;
       height: 155dvh;
       background-image: url('dji_fly_20251127_100010_743_1764249990094_photo.jpg');
+      background-size: cover;
       transform: scaleX(-1);
       -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 85%, transparent 100%);
       mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 85%, transparent 100%);
     }
 
-    /* CONTENEDOR FLOTANTE PARA PIEZAS CON MOVIMIENTO */
+    /* CONTENEDORES DE PIEZAS TROQUELADAS */
     .envoltura-pieza {
       position: absolute;
       display: block;
@@ -180,7 +187,12 @@
       transform: translateY(0) scale(1);
     }
 
-    /* TEXTO CONTINUARÁ */
+    /* INTRODUCCIÓN PRINCIPAL */
+    .texto-intro {
+      top: 32dvh;
+      font-size: clamp(23px, 6.4vw, 34px);
+    }
+
     .texto-continuara {
       font-size: clamp(18px, 4.5vw, 24px);
       letter-spacing: 0.15em;
@@ -188,10 +200,10 @@
       opacity: 0.9;
     }
 
-    /* INDICADOR INICIAL */
+    /* INDICADOR DE SCROLL */
     .scroll-hint {
       position: absolute;
-      top: 68dvh;
+      top: 75dvh;
       left: 0;
       width: 100%;
       text-align: center;
@@ -230,32 +242,32 @@
 
   <main id="canvas-continuo">
 
-    <!-- FONDOS CONTINUOS -->
+    <!-- FONDOS -->
     <div class="capa-suelo suelo-360-inicio"></div>
     <div class="capa-suelo suelo-ocre"></div>
     <div class="capa-suelo suelo-laguna"></div>
     <div class="capa-suelo suelo-costra-1"></div>
     <div class="capa-suelo suelo-costra-2"></div>
 
-    <!-- ESCENA 0: INTRODUCCIÓN 360 -->
-    <p class="bloque-texto animar-texto" style="top: 20dvh;">
+    <!-- ESCENA 0: INTRODUCCIÓN 360 PANORÁMICA -->
+    <p class="bloque-texto animar-texto texto-intro">
       Salar de Maricunga.<br>Un laboratorio natural a más de 3.700 metros de altura.
     </p>
     <div class="scroll-hint">Desliza para explorar ↓</div>
 
-    <!-- ESCENA 1: SALAR Y BACTERIAS DOMINANTES[cite: 1] -->
+    <!-- ESCENA 1: CANAL DE LAGUNAS Y BACTERIAS DOMINANTES[cite: 1] -->
     <div class="envoltura-pieza difuminado-inferior" data-speed="-0.15"
          style="top: 108dvh; left: -15%; width: 130%;">
       <img class="pieza-img" src="salar_laguna2.png" alt="Canal de lagunas del Salar">
     </div>
 
-    <!-- Bacteria naranja[cite: 1] -->
+    <!-- Bacteria naranja (oscilación ±5°)[cite: 1] -->
     <div class="envoltura-pieza" data-speed="0.25"
          style="top: 116dvh; left: 4%; width: 56%;">
       <img class="pieza-img balanceo-bacteria-1" src="bacterias_naranjas.png" alt="Pseudomonadota">
     </div>
 
-    <!-- Bacteria morada[cite: 1] -->
+    <!-- Bacteria morada (entrada lateral + oscilación ±5°)[cite: 1] -->
     <div class="envoltura-pieza" data-speed="-0.18" data-slide-x="100"
          style="top: 134dvh; left: 48%; width: 52%;">
       <img class="pieza-img balanceo-bacteria-2" src="bacterias_moradas.png" alt="Bacteroidota">
@@ -285,7 +297,7 @@
       Donde la sal es extrema, aparecen arqueas halófilas como Halobacteriota y Nanoarchaeota.[cite: 3]
     </p>
 
-    <!-- Única aparición del salero: entra desde la izquierda[cite: 3] -->
+    <!-- Salero (única aparición)[cite: 3] -->
     <div class="envoltura-pieza" data-speed="0.2" data-base-rot="18" data-slide-x="-90"
          style="top: 375dvh; left: 4%; width: 34%;">
       <img class="pieza-img" src="salero_transparente.png" alt="Salero">
@@ -301,7 +313,7 @@
       <img class="pieza-img balanceo-bacteria-2" src="celula_transparente.png" alt="Nanoarchaeota">
     </div>
 
-    <!-- ESCENA 4: EL FACTOR LUGAR Y MUESTREO (SIN SALERO)[cite: 4] -->
+    <!-- ESCENA 4: EL FACTOR LUGAR Y MUESTREO[cite: 4] -->
     <p class="bloque-texto animar-texto" style="top: 484dvh;">
       Pero el lugar exacto donde se toma la muestra pesa incluso más que la sal misma.[cite: 4]
     </p>
@@ -371,10 +383,10 @@
           }
         });
 
-        // Revelado sincronizado de textos
+        // Revelado de textos
         textos.forEach(function (el) {
           var rect = el.getBoundingClientRect();
-          if (rect.top < vh * 0.75 && rect.bottom > vh * 0.20) {
+          if (rect.top < vh * 0.78 && rect.bottom > vh * 0.18) {
             el.classList.add('revelado');
           } else {
             el.classList.remove('revelado');
