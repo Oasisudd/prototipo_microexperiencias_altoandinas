@@ -4,115 +4,110 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Micro-Experiencias AltoAndinas</title>
-<meta name="description" content="La vida invisible de los salares del norte de Chile. Una película scrolleable del Anillo OASIS.">
+<meta name="description" content="La vida invisible de los salares del norte de Chile. Prototipo de la película scrolleable del Anillo OASIS.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Saira:wght@500;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Saira:wght@800&display=swap" rel="stylesheet">
 <style>
-:root{
-  --turquesa:#00a99d; --ocre:#a98743; --azul:#343b4d; --rosa:#FF7BAC; --sal:#f2f0ea;
-  --font:'Saira','Trebuchet MS','Segoe UI',sans-serif;
-}
+:root{--turquesa:#00a99d;--ocre:#a98743;--azul:#343b4d;--rosa:#FF7BAC}
 *{box-sizing:border-box;margin:0;padding:0}
-html{background:var(--azul);scroll-behavior:smooth}
-body{font-family:var(--font);color:#fff;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-img{display:block;max-width:100%}
+html,body{background:var(--azul)}
+body{font-family:'Saira','Trebuchet MS','Segoe UI',sans-serif;color:#fff;-webkit-font-smoothing:antialiased}
+img{display:block}
 
-.escena{position:relative;min-height:100svh;overflow:hidden;display:flex;padding:max(8vh,env(safe-area-inset-top)) 7vw max(8vh,env(safe-area-inset-bottom))}
-.escena.abajo{align-items:flex-end}
-.escena.arriba{align-items:flex-start}
-.escena.centro{align-items:center}
+/* Cada escena ocupa 180% de pantalla: queda fija mientras se recorre y la siguiente sube encima */
+.escena{position:relative;height:180svh}
+.escenario{position:sticky;top:0;height:100svh;overflow:hidden;display:grid;place-items:center}
+/* Cuadro 16:9 que cubre la pantalla, como en el storyboard */
+.cuadro{position:relative;container-type:size;width:max(100vw,177.78svh);height:max(100svh,56.25vw);flex:none}
+.fondo{position:absolute;inset:0;background-size:cover;background-position:center}
+.pieza{position:absolute;left:var(--l);top:var(--t);width:var(--w);height:auto;will-change:transform;
+  filter:drop-shadow(0 .4cqw .8cqw rgba(0,0,0,.18))}
+.texto{position:absolute;left:var(--l);top:var(--t);width:var(--w);font-weight:800;font-size:var(--fs);line-height:1.18;letter-spacing:.005em}
+.sombra{text-shadow:0 .15cqw 1.2cqw rgba(0,0,0,.55)}
 
-.fondo{position:absolute;inset:-8% 0;background-size:cover;background-position:center;z-index:0}
-.recorte{position:absolute;z-index:1;will-change:transform;filter:drop-shadow(0 6px 14px rgba(0,0,0,.18))}
-
-.texto{position:relative;z-index:2;max-width:22ch;font-weight:800;font-size:clamp(1.55rem,5.6vw,3.1rem);line-height:1.12;letter-spacing:-.005em}
-.sobre-foto .texto{text-shadow:0 2px 18px rgba(0,0,0,.55),0 1px 3px rgba(0,0,0,.4)}
-.texto small{display:block;margin-top:.6em;font-weight:500;font-size:.6em;line-height:1.35;max-width:32ch;letter-spacing:0}
-
-.dato{font-size:clamp(3rem,15vw,10rem);line-height:.9;letter-spacing:-.03em;display:block;margin-bottom:.15em}
-
-/* portada */
-.portada{flex-direction:column;justify-content:space-between}
-.portada .logo{width:min(180px,40vw)}
-.portada h1{font-weight:800;font-size:clamp(2.6rem,11vw,6.5rem);line-height:.92;letter-spacing:-.02em;max-width:9ch}
-.portada p{font-weight:500;font-size:clamp(1.05rem,3.6vw,1.5rem);margin-top:.9rem;max-width:26ch;opacity:.9}
-.desliza{font-weight:500;font-size:.95rem;opacity:.75;display:flex;align-items:center;gap:.6rem}
-.desliza::after{content:"";width:2px;height:34px;background:currentColor;animation:baja 1.8s ease-in-out infinite;transform-origin:top}
-@keyframes baja{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(0);transform-origin:bottom}}
-
-/* círculos 206 de 1374 */
-.circulos{position:absolute;right:-12vw;top:12vh;width:min(78vw,560px);aspect-ratio:1.5;z-index:1}
-.circulos span{position:absolute;top:0;width:66%;aspect-ratio:1;border-radius:50%;border:clamp(3px,.8vw,6px) solid #fff}
-.circulos span:first-child{left:0;background:rgba(0,169,157,.55)}
-.circulos span:last-child{right:0;background:rgba(255,123,172,.55)}
-
-/* red de especies clave */
-.red{position:absolute;inset:6% 4% 34% 4%;z-index:1;width:92%;height:60%}
-
-.cierre{flex-direction:column;justify-content:center;gap:2.2rem}
-.cierre .logo{width:min(160px,36vw)}
-.creditos{font-weight:500;font-size:clamp(.85rem,2.8vw,1rem);opacity:.75;max-width:40ch;line-height:1.45}
-
-@media (min-width:900px){
-  .escena{padding-left:9vw;padding-right:9vw}
-  .texto{font-size:clamp(1.8rem,3.2vw,3.1rem)}
-  .dato{font-size:clamp(6rem,11vw,10rem)}
+@media (orientation:portrait){
+  .cuadro{width:100vw;height:100svh}
+  .pieza,.texto{left:var(--ml);top:var(--mt);width:var(--mw)}
+  .texto{font-size:var(--mfs)}
+  .fondo.franja{background:linear-gradient(var(--azul) 0 34%,transparent 34%) !important}
 }
-@media (prefers-reduced-motion:reduce){
-  html{scroll-behavior:auto}
-  .recorte,.fondo{transform:none!important}
-  .desliza::after{animation:none}
-}
+@media (prefers-reduced-motion:reduce){.pieza{transform:none !important}}
 </style>
 </head>
 <body>
-<section class="escena abajo" style="background:var(--ocre)">
-  <img class="recorte" data-vel="0.08" src="img/salar_transparente.webp" alt="" style="width:min(120vw,1100px);left:-10vw;top:22vh">
-  <img class="recorte" data-vel="0.45" src="img/bacterias_naranjas.webp" alt="Bacterias del grupo Pseudomonadota" style="width:min(62vw,520px);left:-4vw;top:10vh">
-  <img class="recorte" data-vel="0.6" src="img/bacterias_moradas.webp" alt="Bacterias del grupo Bacteroidota" style="width:min(58vw,500px);right:-8vw;top:48vh">
-  <p class="texto sobre-foto" style="text-shadow:0 2px 16px rgba(0,0,0,.45)">Pseudomonadota y Bacteroidota, dos grupos de bacterias, dominan casi todo el sistema.</p>
+
+<!-- Escena 1: bacterias dominantes -->
+<section class="escena">
+  <div class="escenario"><div class="cuadro">
+    <div class="fondo" style="background:var(--ocre)"></div>
+    <img class="pieza" data-vel="10" src="img/salar_transparente.webp" alt="Vista aérea del salar"
+      style="--l:1.5%;--t:9%;--w:80%;--ml:-22%;--mt:24%;--mw:140%">
+    <img class="pieza" data-vel="45" src="img/bacterias_naranjas.webp" alt="Bacterias del grupo Pseudomonadota"
+      style="--l:3%;--t:2%;--w:42%;--ml:-6%;--mt:6%;--mw:85%">
+    <img class="pieza" data-vel="65" src="img/bacterias_moradas.webp" alt="Bacterias del grupo Bacteroidota"
+      style="--l:64%;--t:18%;--w:34%;--ml:40%;--mt:42%;--mw:68%">
+    <p class="texto sombra" style="--l:4.5%;--t:59%;--w:56%;--fs:3.3cqw;--ml:6%;--mt:70%;--mw:88%;--mfs:6.8cqw">Pseudomonadota y Bacteroidota, dos grupos de bacterias, dominan casi todo el sistema.</p>
+  </div></div>
 </section>
 
-<section class="escena abajo sobre-foto">
-  <div class="fondo" data-vel="0.1" style="background-image:url(img/laguna_photosintesis.webp)"></div>
-  <img class="recorte" data-vel="0.4" src="img/grupo_bacterias_borde_blanco.webp" alt="Filamentos de cianobacterias" style="height:min(42svh,380px);left:8vw;top:8vh">
-  <p class="texto">Donde el agua es menos salada aparecen Cyanobacteriota y Chloroflexota, bacterias que aprovechan la luz del sol.</p>
+<!-- Escena 2: cianobacterias -->
+<section class="escena">
+  <div class="escenario"><div class="cuadro">
+    <div class="fondo" style="background-image:url(img/laguna_photosintesis.webp)"></div>
+    <img class="pieza" data-vel="50" src="img/grupo_bacterias_borde_blanco.webp" alt="Filamentos de cianobacterias"
+      style="--l:9%;--t:11%;--w:19%;--ml:10%;--mt:8%;--mw:60%">
+    <p class="texto sombra" style="--l:3.5%;--t:70%;--w:72%;--fs:3.3cqw;--ml:6%;--mt:64%;--mw:88%;--mfs:6.8cqw">Donde el agua es menos salada aparecen Cyanobacteriota y Chloroflexota, bacterias que aprovechan la luz del sol.</p>
+  </div></div>
 </section>
 
-<section class="escena arriba sobre-foto">
-  <div class="fondo" data-vel="0.1" style="background-image:url(img/costra_sal.webp)"></div>
-  <img class="recorte" data-vel="0.35" src="img/bacilo_transparente.webp" alt="Arquea halófila en forma de bastón" style="height:min(40svh,380px);left:6vw;bottom:8vh;transform:rotate(-14deg)">
-  <img class="recorte" data-vel="0.55" src="img/celula_transparente.webp" alt="Célula de arquea al microscopio electrónico" style="width:min(58vw,520px);right:-6vw;bottom:12vh">
-  <p class="texto">Donde la sal es extrema, aparecen arqueas halófilas como Halobacteriota y Nanoarchaeota.</p>
+<!-- Escena 3: arqueas -->
+<section class="escena">
+  <div class="escenario"><div class="cuadro">
+    <div class="fondo" style="background-image:url(img/costra_sal.webp)"></div>
+    <img class="pieza" data-vel="40" src="img/bacilo_transparente.webp" alt="Arquea halófila en forma de bastón"
+      style="--l:34%;--t:36%;--w:20%;--ml:4%;--mt:40%;--mw:52%">
+    <img class="pieza" data-vel="60" src="img/celula_transparente.webp" alt="Célula de arquea vista al microscopio electrónico"
+      style="--l:58%;--t:26%;--w:38%;--ml:38%;--mt:52%;--mw:66%">
+    <p class="texto sombra" style="--l:3%;--t:4%;--w:88%;--fs:3.3cqw;--ml:6%;--mt:6%;--mw:88%;--mfs:6.8cqw">Donde la sal es extrema, aparecen arqueas halófilas como Halobacteriota y Nanoarchaeota.</p>
+  </div></div>
 </section>
 
-<section class="escena abajo">
-  <div class="fondo" style="background:linear-gradient(var(--azul) 0 42%,transparent 42%),url(img/costra_sal.webp) center/cover"></div>
-  <img class="recorte" data-vel="0.3" src="img/muestra_maricunga_transparente.webp" alt="" style="width:min(70vw,620px);left:-6vw;top:46vh">
-  <img class="recorte" data-vel="0.45" src="img/cientificotomandomuestra.webp" alt="" style="height:min(46svh,420px);right:4vw;top:36vh">
-  <p class="texto" style="position:absolute;top:8vh;left:7vw">Pero el lugar exacto donde se toma la muestra pesa incluso más que la sal misma.</p>
+<!-- Escena 4: el lugar pesa más -->
+<section class="escena">
+  <div class="escenario"><div class="cuadro">
+    <div class="fondo" style="background-image:url(img/costra_sal.webp)"></div>
+    <div class="fondo franja" style="background:linear-gradient(var(--azul) 0 42%,transparent 42%)"></div>
+    <img class="pieza" data-vel="35" src="img/muestra_maricunga_transparente.webp" alt="Corte de un tapete microbiano del Salar de Maricunga"
+      style="--l:1%;--t:45%;--w:52%;--ml:-6%;--mt:50%;--mw:82%">
+    <img class="pieza" data-vel="55" src="img/cientificotomandomuestra.webp" alt="Investigadora tomando una muestra en el salar"
+      style="--l:69%;--t:24%;--w:17.5%;--ml:56%;--mt:30%;--mw:42%">
+    <p class="texto" style="--l:31%;--t:6%;--w:63%;--fs:3.3cqw;--ml:6%;--mt:6%;--mw:88%;--mfs:6.8cqw">Pero el lugar exacto donde se toma la muestra pesa incluso más que la sal misma.</p>
+  </div></div>
 </section>
 
 <script>
 (function(){
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var els = Array.prototype.slice.call(document.querySelectorAll('[data-vel]'));
-  var base = els.map(function(el){ return el.style.transform || ''; });
-  var ticking = false;
-  function update(){
+  var escenas = Array.prototype.slice.call(document.querySelectorAll('.escena'));
+  var pendiente = false;
+  function mover(){
     var vh = window.innerHeight;
-    els.forEach(function(el, i){
-      var sec = el.closest('section'); var r = sec.getBoundingClientRect();
-      if (r.bottom < -vh || r.top > 2 * vh) return;
-      var off = (r.top + r.height / 2 - vh / 2) * -parseFloat(el.dataset.vel);
-      el.style.transform = 'translate3d(0,' + off.toFixed(1) + 'px,0) ' + base[i];
+    escenas.forEach(function(sec){
+      var r = sec.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > vh) return;
+      // avance de 0 a 1 mientras la escena está fija
+      var p = Math.min(1, Math.max(0, -r.top / (r.height - vh)));
+      sec.querySelectorAll('[data-vel]').forEach(function(el){
+        var d = (0.5 - p) * parseFloat(el.dataset.vel);
+        el.style.transform = 'translate3d(0,' + d.toFixed(1) + 'px,0)';
+      });
     });
-    ticking = false;
+    pendiente = false;
   }
-  window.addEventListener('scroll', function(){ if(!ticking){ ticking = true; requestAnimationFrame(update); } }, {passive:true});
-  window.addEventListener('resize', update);
-  update();
+  window.addEventListener('scroll', function(){ if(!pendiente){ pendiente = true; requestAnimationFrame(mover); } }, {passive:true});
+  window.addEventListener('resize', mover);
+  mover();
 })();
 </script>
 </body>
