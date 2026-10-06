@@ -1,114 +1,233 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Micro-Experiencias AltoAndinas</title>
-<meta name="description" content="La vida invisible de los salares del norte de Chile. Prototipo de la película scrolleable del Anillo OASIS.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Saira:wght@800&display=swap" rel="stylesheet">
-<style>
-:root{--turquesa:#00a99d;--ocre:#a98743;--azul:#343b4d;--rosa:#FF7BAC}
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{background:var(--azul)}
-body{font-family:'Saira','Trebuchet MS','Segoe UI',sans-serif;color:#fff;-webkit-font-smoothing:antialiased}
-img{display:block}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Micro-Experiencias AltoAndinas</title>
+  <meta name="description" content="La vida invisible de los salares del norte de Chile. Anillo OASIS.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Saira:wght@800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --azul-maricunga: #32394a;
+      --ocre: #b4934a;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    html, body {
+      background: #000;
+      color: #fff;
+      font-family: 'Saira', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
 
-/* Cada escena ocupa 180% de pantalla: queda fija mientras se recorre y la siguiente sube encima */
-.escena{position:relative;height:180svh}
-.escenario{position:sticky;top:0;height:100svh;overflow:hidden;display:grid;place-items:center}
-/* Cuadro 16:9 que cubre la pantalla, como en el storyboard */
-.cuadro{position:relative;container-type:size;width:max(100vw,177.78svh);height:max(100svh,56.25vw);flex:none}
-.fondo{position:absolute;inset:0;background-size:cover;background-position:center}
-.pieza{position:absolute;left:var(--l);top:var(--t);width:var(--w);height:auto;will-change:transform;
-  filter:drop-shadow(0 .4cqw .8cqw rgba(0,0,0,.18))}
-.texto{position:absolute;left:var(--l);top:var(--t);width:var(--w);font-weight:800;font-size:var(--fs);line-height:1.18;letter-spacing:.005em}
-.sombra{text-shadow:0 .15cqw 1.2cqw rgba(0,0,0,.55)}
+    /* Estructura de scroll: cada escena da holgura de recorrido */
+    .escena {
+      position: relative;
+      height: 180vh;
+    }
 
-@media (orientation:portrait){
-  .cuadro{width:100vw;height:100svh}
-  .pieza,.texto{left:var(--ml);top:var(--mt);width:var(--mw)}
-  .texto{font-size:var(--mfs)}
-  .fondo.franja{background:linear-gradient(var(--azul) 0 34%,transparent 34%) !important}
-}
-@media (prefers-reduced-motion:reduce){.pieza{transform:none !important}}
-</style>
+    /* Contenedor fijo durante el scroll */
+    .escenario {
+      position: sticky;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: #000;
+    }
+
+    /* Lienzo 16:9 estricto del storyboard */
+    .cuadro {
+      position: relative;
+      container-type: size;
+      aspect-ratio: 16 / 9;
+      width: 100vw;
+      max-height: 100vh;
+      overflow: hidden;
+      background: var(--azul-maricunga);
+    }
+    @media (min-aspect-ratio: 16/9) {
+      .cuadro {
+        width: calc(100vh * (16 / 9));
+        height: 100vh;
+      }
+    }
+
+    /* Fondos */
+    .fondo {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+    }
+
+    /* Piezas troqueladas con drop shadow limpio */
+    .pieza {
+      position: absolute;
+      left: var(--x);
+      top: var(--y);
+      width: var(--w);
+      height: auto;
+      will-change: transform;
+      filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.25));
+    }
+
+    /* Tipografía cinematográfica */
+    .texto {
+      position: absolute;
+      left: var(--x);
+      top: var(--y);
+      width: var(--w);
+      font-weight: 800;
+      font-size: clamp(14px, 2.8cqw, 36px);
+      line-height: 1.15;
+      color: #ffffff;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8), 0 0 2px rgba(0, 0, 0, 0.9);
+      z-index: 10;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pieza { transform: none !important; }
+    }
+  </style>
 </head>
 <body>
 
-<!-- Escena 1: bacterias dominantes -->
-<section class="escena">
-  <div class="escenario"><div class="cuadro">
-    <div class="fondo" style="background:var(--ocre)"></div>
-    <img class="pieza" data-vel="10" src="img/salar_transparente.webp" alt="Vista aérea del salar"
-      style="--l:1.5%;--t:9%;--w:80%;--ml:-22%;--mt:24%;--mw:140%">
-    <img class="pieza" data-vel="45" src="img/bacterias_naranjas.webp" alt="Bacterias del grupo Pseudomonadota"
-      style="--l:3%;--t:2%;--w:42%;--ml:-6%;--mt:6%;--mw:85%">
-    <img class="pieza" data-vel="65" src="img/bacterias_moradas.webp" alt="Bacterias del grupo Bacteroidota"
-      style="--l:64%;--t:18%;--w:34%;--ml:40%;--mt:42%;--mw:68%">
-    <p class="texto sombra" style="--l:4.5%;--t:59%;--w:56%;--fs:3.3cqw;--ml:6%;--mt:70%;--mw:88%;--mfs:6.8cqw">Pseudomonadota y Bacteroidota, dos grupos de bacterias, dominan casi todo el sistema.</p>
-  </div></div>
-</section>
+  <!-- Escena 1: Bacterias dominantes -->
+  <section class="escena">
+    <div class="escenario">
+      <div class="cuadro">
+        <div class="fondo" style="background: var(--ocre);"></div>
+        <!-- Fondo salar inclinado -->
+        <img class="pieza" data-vel="8" src="img/salar_transparente.webp" alt="Salar de Maricunga"
+             style="--x: -2%; --y: 12%; --w: 104%;">
+        <!-- Colonia bacteriana naranja -->
+        <img class="pieza" data-vel="25" src="img/bacterias_naranjas.webp" alt="Pseudomonadota"
+             style="--x: 2%; --y: 2%; --w: 36%;">
+        <!-- Colonia bacteriana morada -->
+        <img class="pieza" data-vel="35" src="img/bacterias_moradas.webp" alt="Bacteroidota"
+             style="--x: 62%; --y: 14%; --w: 35%;">
+        <!-- Texto inferior izquierda -->
+        <p class="texto" style="--x: 5%; --y: 68%; --w: 48%;">
+          Pseudomonadota y Bacteroidota,<br>
+          dos grupos de bacterias, dominan<br>
+          casi todo el sistema.
+        </p>
+      </div>
+    </div>
+  </section>
 
-<!-- Escena 2: cianobacterias -->
-<section class="escena">
-  <div class="escenario"><div class="cuadro">
-    <div class="fondo" style="background-image:url(img/laguna_photosintesis.webp)"></div>
-    <img class="pieza" data-vel="50" src="img/grupo_bacterias_borde_blanco.webp" alt="Filamentos de cianobacterias"
-      style="--l:9%;--t:11%;--w:19%;--ml:10%;--mt:8%;--mw:60%">
-    <p class="texto sombra" style="--l:3.5%;--t:70%;--w:72%;--fs:3.3cqw;--ml:6%;--mt:64%;--mw:88%;--mfs:6.8cqw">Donde el agua es menos salada aparecen Cyanobacteriota y Chloroflexota, bacterias que aprovechan la luz del sol.</p>
-  </div></div>
-</section>
+  <!-- Escena 2: Cianobacterias y luz solar -->
+  <section class="escena">
+    <div class="escenario">
+      <div class="cuadro">
+        <div class="fondo" style="background-image: url('img/laguna_photosintesis.webp');"></div>
+        <!-- Filamentos diagonales -->
+        <img class="pieza" data-vel="30" src="img/grupo_bacterias_borde_blanco.webp" alt="Cyanobacteriota y Chloroflexota"
+             style="--x: 6%; --y: 6%; --w: 26%;">
+        <!-- Texto inferior izquierda/centro -->
+        <p class="texto" style="--x: 5%; --y: 74%; --w: 72%;">
+          Donde el agua es menos salada aparecen<br>
+          Cyanobacteriota y Chloroflexota, bacterias que<br>
+          aprovechan la luz del sol.
+        </p>
+      </div>
+    </div>
+  </section>
 
-<!-- Escena 3: arqueas -->
-<section class="escena">
-  <div class="escenario"><div class="cuadro">
-    <div class="fondo" style="background-image:url(img/costra_sal.webp)"></div>
-    <img class="pieza" data-vel="40" src="img/bacilo_transparente.webp" alt="Arquea halófila en forma de bastón"
-      style="--l:34%;--t:36%;--w:20%;--ml:4%;--mt:40%;--mw:52%">
-    <img class="pieza" data-vel="60" src="img/celula_transparente.webp" alt="Célula de arquea vista al microscopio electrónico"
-      style="--l:58%;--t:26%;--w:38%;--ml:38%;--mt:52%;--mw:66%">
-    <p class="texto sombra" style="--l:3%;--t:4%;--w:88%;--fs:3.3cqw;--ml:6%;--mt:6%;--mw:88%;--mfs:6.8cqw">Donde la sal es extrema, aparecen arqueas halófilas como Halobacteriota y Nanoarchaeota.</p>
-  </div></div>
-</section>
+  <!-- Escena 3: Arqueas halófilas y sal extrema -->
+  <section class="escena">
+    <div class="escenario">
+      <div class="cuadro">
+        <div class="fondo" style="background-image: url('img/costra_sal.webp');"></div>
+        <!-- Salero inclinado -->
+        <img class="pieza" data-vel="18" src="img/salero.webp" alt="Salero"
+             style="--x: 8%; --y: 24%; --w: 16%; transform: rotate(18deg);">
+        <!-- Bacilo -->
+        <img class="pieza" data-vel="32" src="img/bacilo_transparente.webp" alt="Halobacteriota"
+             style="--x: 32%; --y: 34%; --w: 18%;">
+        <!-- Célula microscopio -->
+        <img class="pieza" data-vel="48" src="img/celula_transparente.webp" alt="Nanoarchaeota"
+             style="--x: 54%; --y: 18%; --w: 38%;">
+        <!-- Texto superior -->
+        <p class="texto" style="--x: 4%; --y: 8%; --w: 80%;">
+          Donde la sal es extrema, aparecen arqueas halófilas<br>
+          como Halobacteriota y Nanoarchaeota.
+        </p>
+      </div>
+    </div>
+  </section>
 
-<!-- Escena 4: el lugar pesa más -->
-<section class="escena">
-  <div class="escenario"><div class="cuadro">
-    <div class="fondo" style="background-image:url(img/costra_sal.webp)"></div>
-    <div class="fondo franja" style="background:linear-gradient(var(--azul) 0 42%,transparent 42%)"></div>
-    <img class="pieza" data-vel="35" src="img/muestra_maricunga_transparente.webp" alt="Corte de un tapete microbiano del Salar de Maricunga"
-      style="--l:1%;--t:45%;--w:52%;--ml:-6%;--mt:50%;--mw:82%">
-    <img class="pieza" data-vel="55" src="img/cientificotomandomuestra.webp" alt="Investigadora tomando una muestra en el salar"
-      style="--l:69%;--t:24%;--w:17.5%;--ml:56%;--mt:30%;--mw:42%">
-    <p class="texto" style="--l:31%;--t:6%;--w:63%;--fs:3.3cqw;--ml:6%;--mt:6%;--mw:88%;--mfs:6.8cqw">Pero el lugar exacto donde se toma la muestra pesa incluso más que la sal misma.</p>
-  </div></div>
-</section>
+  <!-- Escena 4: Muestreo y factor lugar -->
+  <section class="escena">
+    <div class="escenario">
+      <div class="cuadro">
+        <!-- Fondo paisaje salar -->
+        <div class="fondo" style="background-image: url('img/costra_sal.webp');"></div>
+        <!-- Franja oscura superior del cielo -->
+        <div class="fondo" style="background: linear-gradient(var(--azul-maricunga) 0%, var(--azul-maricunga) 38%, transparent 38%);"></div>
+        <!-- Salero cayendo invertido -->
+        <img class="pieza" data-vel="15" src="img/salero.webp" alt="Salero invertido"
+             style="--x: 10%; --y: -4%; --w: 14%; transform: rotate(135deg);">
+        <!-- Trozo tapete microbiano -->
+        <img class="pieza" data-vel="30" src="img/muestra_maricunga_transparente.webp" alt="Muestra de tapete microbiano"
+             style="--x: 4%; --y: 32%; --w: 48%;">
+        <!-- Científica muestreando -->
+        <img class="pieza" data-vel="22" src="img/cientificotomandomuestra.webp" alt="Científica tomando muestra"
+             style="--x: 70%; --y: 16%; --w: 16%;">
+        <!-- Texto arriba centro -->
+        <p class="texto" style="--x: 28%; --y: 8%; --w: 64%;">
+          Pero el lugar exacto donde se toma la<br>
+          muestra pesa incluso más que la sal<br>
+          misma.
+        </p>
+      </div>
+    </div>
+  </section>
 
-<script>
-(function(){
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var escenas = Array.prototype.slice.call(document.querySelectorAll('.escena'));
-  var pendiente = false;
-  function mover(){
-    var vh = window.innerHeight;
-    escenas.forEach(function(sec){
-      var r = sec.getBoundingClientRect();
-      if (r.bottom < 0 || r.top > vh) return;
-      // avance de 0 a 1 mientras la escena está fija
-      var p = Math.min(1, Math.max(0, -r.top / (r.height - vh)));
-      sec.querySelectorAll('[data-vel]').forEach(function(el){
-        var d = (0.5 - p) * parseFloat(el.dataset.vel);
-        el.style.transform = 'translate3d(0,' + d.toFixed(1) + 'px,0)';
-      });
-    });
-    pendiente = false;
-  }
-  window.addEventListener('scroll', function(){ if(!pendiente){ pendiente = true; requestAnimationFrame(mover); } }, {passive:true});
-  window.addEventListener('resize', mover);
-  mover();
-})();
-</script>
+  <script>
+    (function () {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      var escenas = Array.prototype.slice.call(document.querySelectorAll('.escena'));
+      var ticking = false;
+
+      function onScroll() {
+        var vh = window.innerHeight;
+        escenas.forEach(function (sec) {
+          var r = sec.getBoundingClientRect();
+          if (r.bottom < 0 || r.top > vh) return;
+
+          // Progreso lineal normalizado 0 a 1 mientras la escena está fija
+          var p = Math.min(1, Math.max(0, -r.top / (r.height - vh)));
+          sec.querySelectorAll('[data-vel]').forEach(function (el) {
+            var factor = parseFloat(el.dataset.vel);
+            var offset = (0.5 - p) * factor * 1.8;
+            el.style.transform = 'translate3d(0, ' + offset.toFixed(1) + 'px, 0)';
+          });
+        });
+        ticking = false;
+      }
+
+      window.addEventListener('scroll', function () {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(onScroll);
+        }
+      }, { passive: true });
+
+      window.addEventListener('resize', onScroll);
+      onScroll();
+    })();
+  </script>
 </body>
 </html>
