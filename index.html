@@ -1,224 +1,273 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Micro-Experiencias AltoAndinas</title>
-<meta name="description" content="La vida invisible de los salares del norte de Chile. Una película scrolleable del Anillo OASIS.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Saira:wght@500;800&display=swap" rel="stylesheet">
-<style>
-:root{
-  --turquesa:#00a99d; --ocre:#a98743; --azul:#343b4d; --rosa:#FF7BAC; --sal:#f2f0ea;
-  --font:'Saira','Trebuchet MS','Segoe UI',sans-serif;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html{background:var(--azul);scroll-behavior:smooth}
-body{font-family:var(--font);color:#fff;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-img{display:block;max-width:100%}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Micro-Experiencias AltoAndinas</title>
+  <meta name="description" content="La vida invisible de los salares del norte de Chile. Anillo OASIS.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Saira:wght@800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ocre: #b38b3c;
+      --azul: #272d3b;
+      --blanco: #ffffff;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    html, body {
+      background-color: var(--azul);
+      color: var(--blanco);
+      font-family: 'Saira', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      width: 100%;
+    }
 
-.escena{position:relative;min-height:100svh;overflow:hidden;display:flex;padding:max(8vh,env(safe-area-inset-top)) 7vw max(8vh,env(safe-area-inset-bottom))}
-.escena.abajo{align-items:flex-end}
-.escena.arriba{align-items:flex-start}
-.escena.centro{align-items:center}
+    #canvas-continuo {
+      position: relative;
+      width: 100vw;
+      height: 540dvh;
+      overflow: hidden;
+      background-color: var(--azul);
+    }
 
-.fondo{position:absolute;inset:-8% 0;background-size:cover;background-position:center;z-index:0}
-.recorte{position:absolute;z-index:1;will-change:transform;filter:drop-shadow(0 6px 14px rgba(0,0,0,.18))}
+    /* CAPAS DE SUELO CONTINUAS */
+    .capa-suelo {
+      position: absolute;
+      left: 0;
+      width: 100vw;
+      background-size: cover;
+      background-position: center;
+      pointer-events: none;
+      z-index: 1;
+    }
 
-.texto{position:relative;z-index:2;max-width:22ch;font-weight:800;font-size:clamp(1.55rem,5.6vw,3.1rem);line-height:1.12;letter-spacing:-.005em}
-.sobre-foto .texto{text-shadow:0 2px 18px rgba(0,0,0,.55),0 1px 3px rgba(0,0,0,.4)}
-.texto small{display:block;margin-top:.6em;font-weight:500;font-size:.6em;line-height:1.35;max-width:32ch;letter-spacing:0}
+    .suelo-ocre {
+      top: 0;
+      height: 120dvh;
+      background-color: var(--ocre);
+      -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+      mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+    }
 
-.dato{font-size:clamp(3rem,15vw,10rem);line-height:.9;letter-spacing:-.03em;display:block;margin-bottom:.15em}
+    .suelo-laguna {
+      top: 90dvh;
+      height: 130dvh;
+      background-image: url('../laguna_photosintesis.png');
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
+      mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
+    }
 
-/* portada */
-.portada{flex-direction:column;justify-content:space-between}
-.portada .logo{width:min(180px,40vw)}
-.portada h1{font-weight:800;font-size:clamp(2.6rem,11vw,6.5rem);line-height:.92;letter-spacing:-.02em;max-width:9ch}
-.portada p{font-weight:500;font-size:clamp(1.05rem,3.6vw,1.5rem);margin-top:.9rem;max-width:26ch;opacity:.9}
-.desliza{font-weight:500;font-size:.95rem;opacity:.75;display:flex;align-items:center;gap:.6rem}
-.desliza::after{content:"";width:2px;height:34px;background:currentColor;animation:baja 1.8s ease-in-out infinite;transform-origin:top}
-@keyframes baja{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(0);transform-origin:bottom}}
+    .suelo-costra {
+      top: 190dvh;
+      height: 190dvh;
+      background-image: url('../dji_fly_20251127_100010_743_1764249990094_photo.jpg');
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+      mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+    }
 
-/* círculos 206 de 1374 */
-.circulos{position:absolute;right:-12vw;top:12vh;width:min(78vw,560px);aspect-ratio:1.5;z-index:1}
-.circulos span{position:absolute;top:0;width:66%;aspect-ratio:1;border-radius:50%;border:clamp(3px,.8vw,6px) solid #fff}
-.circulos span:first-child{left:0;background:rgba(0,169,157,.55)}
-.circulos span:last-child{right:0;background:rgba(255,123,172,.55)}
+    .suelo-panorama {
+      top: 360dvh;
+      height: 180dvh;
+      background-image: url('../panoramaLagunaCentralMaricunga_story.jpg');
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 100%);
+      mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 100%);
+    }
 
-/* red de especies clave */
-.red{position:absolute;inset:6% 4% 34% 4%;z-index:1;width:92%;height:60%}
+    .franja-cielo {
+      position: absolute;
+      top: 270dvh;
+      left: 0;
+      width: 100vw;
+      height: 35dvh;
+      background: var(--azul);
+      -webkit-mask-image: linear-gradient(to bottom, black 45%, transparent 100%);
+      mask-image: linear-gradient(to bottom, black 45%, transparent 100%);
+      z-index: 2;
+      pointer-events: none;
+    }
 
-.cierre{flex-direction:column;justify-content:center;gap:2.2rem}
-.cierre .logo{width:min(160px,36vw)}
-.creditos{font-weight:500;font-size:clamp(.85rem,2.8vw,1rem);opacity:.75;max-width:40ch;line-height:1.45}
+    /* PIEZAS Y STICKERS */
+    .pieza {
+      position: absolute;
+      left: var(--x);
+      top: var(--y);
+      width: var(--w);
+      height: auto;
+      will-change: transform;
+      filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.45));
+      pointer-events: none;
+      z-index: 3;
+    }
 
-@media (min-width:900px){
-  .escena{padding-left:9vw;padding-right:9vw}
-  .texto{font-size:clamp(1.8rem,3.2vw,3.1rem)}
-  .dato{font-size:clamp(6rem,11vw,10rem)}
-}
-@media (prefers-reduced-motion:reduce){
-  html{scroll-behavior:auto}
-  .recorte,.fondo{transform:none!important}
-  .desliza::after{animation:none}
-}
-</style>
+    /* LOGO INSTITUCIONAL FINAL */
+    .logo-oasis {
+      position: absolute;
+      left: 15%;
+      width: 70%;
+      top: 505dvh;
+      height: auto;
+      z-index: 6;
+      filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.5));
+    }
+
+    /* TEXTOS DINÁMICOS */
+    .bloque-texto {
+      position: absolute;
+      left: 7%;
+      width: 86%;
+      top: var(--y);
+      z-index: 5;
+      pointer-events: none;
+      font-weight: 800;
+      font-size: clamp(22px, 6.2vw, 32px);
+      line-height: 1.18;
+      letter-spacing: -0.01em;
+      color: var(--blanco);
+      text-shadow: 0 3px 12px rgba(0, 0, 0, 0.95), 0 1px 4px rgba(0, 0, 0, 1);
+    }
+
+    .palabra {
+      display: inline-block;
+      white-space: pre;
+      opacity: 0;
+      transform: translateY(28px) scale(0.92);
+      transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease-out;
+      will-change: transform, opacity;
+    }
+
+    .bloque-texto.revelado .palabra {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pieza { transform: none !important; }
+      .palabra { opacity: 1 !important; transform: none !important; transition: none !important; }
+    }
+  </style>
 </head>
 <body>
 
-<!-- Portada -->
-<section class="escena portada" style="background:var(--azul)">
-  <img class="logo" src="img/OASIS_logoblanco.webp" alt="OASIS, Observatorio de Salares Andinos">
-  <div>
-    <h1>Micro-Experiencias AltoAndinas</h1>
-    <p>La vida invisible de los salares del norte de Chile</p>
-  </div>
-  <div class="desliza">Desliza para bajar</div>
-</section>
+  <main id="canvas-continuo">
 
-<!-- La montaña -->
-<section class="escena centro" style="background:var(--turquesa)">
-  <img class="recorte" data-vel="0.25" src="img/salar_transparente.webp" alt="" style="width:min(120vw,900px);right:-30vw;bottom:-6vh">
-  <p class="texto">Altiplano de Atacama, norte de Chile. Entre 3.760 y 4.300 metros de altura.</p>
-</section>
+    <!-- FONDOS -->
+    <div class="capa-suelo suelo-ocre"></div>
+    <div class="capa-suelo suelo-laguna"></div>
+    <div class="capa-suelo suelo-costra"></div>
+    <div class="capa-suelo suelo-panorama"></div>
+    <div class="franja-cielo"></div>
 
-<section class="escena arriba" style="background:var(--ocre)">
-  <img class="recorte" data-vel="0.18" src="img/salar_transparente.webp" alt="Vista aérea del salar y su canal de agua" style="width:min(110vw,1000px);left:-6vw;bottom:4vh">
-  <p class="texto">El salar de Maricunga y la laguna Santa Rosa forman un solo sistema, unidos por un canal de agua permanente.</p>
-</section>
+    <!-- ESCENA 1: SALAR Y BACTERIAS DOMINANTES -->
+    <img class="pieza" data-speed="-0.15" src="../salar_laguna2.png" alt="Salar y laguna"
+         style="--x: -20%; --y: 5%; --w: 140%;">
+    <img class="pieza" data-speed="0.32" data-rot="15" src="../bacterias_naranjas.png" alt="Pseudomonadota"
+         style="--x: -4%; --y: 2%; --w: 80%;">
+    <img class="pieza" data-speed="-0.25" data-rot="-10" src="../bacterias_moradas.png" alt="Bacteroidota"
+         style="--x: 38%; --y: 10%; --w: 70%;">
 
-<section class="escena centro" style="background:var(--azul)">
-  <p class="texto">Más al sur, la laguna del Negro Francisco está partida en dos: un lado salobre y otro hipersalino.<small>Y la Laguna Verde guarda aguas termales, calentadas por actividad geotérmica.</small></p>
-</section>
+    <p class="bloque-texto animar-texto" style="--y: 15%;">
+      Pseudomonadota y Bacteroidota, dos grupos de bacterias, dominan casi todo el sistema.
+    </p>
 
-<!-- Los extremos -->
-<section class="escena centro" style="background:var(--rosa)">
-  <p class="texto"><span class="dato">31&nbsp;a&nbsp;47&nbsp;°C</span>La temperatura de las termas de Laguna Verde, en pleno frío andino.</p>
-</section>
+    <!-- ESCENA 2: CIANOBACTERIAS Y SOL -->
+    <img class="pieza" data-speed="0.4" data-rot="6" src="../grupo_bacterias_borde_blanco.png" alt="Cyanobacteriota"
+         style="--x: 10%; --y: 23%; --w: 76%;">
 
-<section class="escena abajo sobre-foto">
-  <div class="fondo" data-vel="0.12" style="background-image:url(img/costra_sal.webp)"></div>
-  <p class="texto"><span class="dato">70&nbsp;a&nbsp;80&nbsp;g/L</span>La sal de algunas lagunas: más del doble que el agua de mar.</p>
-</section>
+    <p class="bloque-texto animar-texto" style="--y: 31%;">
+      Donde el agua es menos salada aparecen Cyanobacteriota y Chloroflexota, bacterias que aprovechan la luz del sol.
+    </p>
 
-<!-- Lo invisible -->
-<section class="escena arriba" style="background:var(--azul)">
-  <img class="recorte" data-vel="0.3" src="img/muestra_maricunga_transparente.webp" alt="Corte de un tapete microbiano con capas de colores" style="width:min(105vw,820px);left:-8vw;bottom:8vh">
-  <p class="texto">En la orilla, capas de colores cubren el fondo. Son tapetes microbianos: ciudades de microbios.</p>
-</section>
+    <!-- ESCENA 3: EXTREMO SALINO Y ARQUEAS -->
+    <p class="bloque-texto animar-texto" style="--y: 45%;">
+      Donde la sal es extrema, aparecen arqueas halófilas como Halobacteriota y Nanoarchaeota.
+    </p>
 
-<section class="escena abajo" style="background:var(--turquesa)">
-  <img class="recorte" data-vel="0.22" src="img/cientificotomandomuestra.webp" alt="Investigadora tomando una muestra en terreno" style="height:min(70svh,640px);right:4vw;top:6vh">
-  <p class="texto">El equipo recolectó tapetes, sedimentos y costras de sal, y midió temperatura, acidez, salinidad y oxígeno.</p>
-</section>
+    <img class="pieza" data-speed="0.25" data-rot="18" src="../salero_transparente.png" alt="Salero"
+         style="--x: 5%; --y: 50%; --w: 36%;">
+    <img class="pieza" data-speed="-0.3" data-rot="-12" src="../bacilo_transparente.png" alt="Halobacteriota"
+         style="--x: 46%; --y: 52%; --w: 48%;">
+    <img class="pieza" data-speed="0.38" data-rot="10" src="../celula_transparente.png" alt="Nanoarchaeota"
+         style="--x: 20%; --y: 58%; --w: 68%;">
 
-<section class="escena centro" style="background:var(--azul)">
-  <p class="texto">Luego leyó el ADN de cada muestra para saber quién vive ahí.</p>
-</section>
+    <!-- ESCENA 4: EL FACTOR LUGAR Y MUESTREO -->
+    <p class="bloque-texto animar-texto" style="--y: 67%;">
+      Pero el lugar exacto donde se toma la muestra pesa incluso más que la sal misma.
+    </p>
 
-<!-- Bacterias y arqueas -->
-<section class="escena abajo" style="background:var(--ocre)">
-  <img class="recorte" data-vel="0.08" src="img/salar_transparente.webp" alt="" style="width:min(120vw,1100px);left:-10vw;top:8vh">
-  <img class="recorte" data-vel="0.45" src="img/bacterias_naranjas.webp" alt="Bacterias del grupo Pseudomonadota" style="width:min(62vw,520px);left:-6vw;top:4vh">
-  <img class="recorte" data-vel="0.6" src="img/bacterias_moradas.webp" alt="Bacterias del grupo Bacteroidota" style="width:min(58vw,500px);right:-8vw;top:30vh">
-  <p class="texto sobre-foto" style="text-shadow:0 2px 16px rgba(0,0,0,.45)">Pseudomonadota y Bacteroidota, dos grupos de bacterias, dominan casi todo el sistema.</p>
-</section>
+    <img class="pieza" data-speed="0.3" data-rot="135" src="../salero_transparente.png" alt="Salero cayendo"
+         style="--x: -4%; --y: 68%; --w: 30%;">
+    <img class="pieza" data-speed="0.18" src="../cientificotomandomuestra.png" alt="Científica muestreando"
+         style="--x: 52%; --y: 71%; --w: 44%;">
+    <img class="pieza" data-speed="-0.22" src="../muestra_maricunga_transparente.png" alt="Tapete microbiano"
+         style="--x: -4%; --y: 75%; --w: 85%;">
 
-<section class="escena abajo sobre-foto">
-  <div class="fondo" data-vel="0.1" style="background-image:url(img/laguna_photosintesis.webp)"></div>
-  <img class="recorte" data-vel="0.4" src="img/grupo_bacterias_borde_blanco.webp" alt="Filamentos de cianobacterias" style="height:min(42svh,380px);left:8vw;top:8vh">
-  <p class="texto">Donde el agua es menos salada aparecen Cyanobacteriota y Chloroflexota, bacterias que aprovechan la luz del sol.</p>
-</section>
+    <!-- ESCENA 5: CIERRE -->
+    <p class="bloque-texto animar-texto" style="--y: 86%;">
+      Las arqueas no son bacterias: son otro dominio de la vida, especialistas en vivir al límite.
+    </p>
 
-<section class="escena arriba sobre-foto">
-  <div class="fondo" data-vel="0.1" style="background-image:url(img/costra_sal.webp)"></div>
-  <img class="recorte" data-vel="0.35" src="img/bacilo_transparente.webp" alt="Arquea halófila en forma de bastón" style="height:min(40svh,380px);left:6vw;bottom:8vh;transform:rotate(-14deg)">
-  <img class="recorte" data-vel="0.55" src="img/celula_transparente.webp" alt="Célula de arquea al microscopio electrónico" style="width:min(58vw,520px);right:-6vw;bottom:12vh">
-  <p class="texto">Donde la sal se vuelve extrema aparecen las arqueas, como Halobacteriota y Nanoarchaeota.</p>
-</section>
+    <!-- LOGO FINAL -->
+    <img class="logo-oasis" src="../_LOGO%20DESCRIPTOR%20POSITIVO%2002.png" alt="Logo OASIS">
 
-<section class="escena centro" style="background:var(--rosa)">
-  <p class="texto">Las arqueas no son bacterias: son otro dominio de la vida, especialistas en vivir al límite.</p>
-</section>
+  </main>
 
-<section class="escena abajo">
-  <div class="fondo" style="background:linear-gradient(var(--azul) 0 42%,transparent 42%),url(img/costra_sal.webp) center/cover"></div>
-  <img class="recorte" data-vel="0.3" src="img/muestra_maricunga_transparente.webp" alt="" style="width:min(70vw,620px);left:-6vw;top:34vh">
-  <img class="recorte" data-vel="0.45" src="img/cientificotomandomuestra.webp" alt="" style="height:min(46svh,420px);right:4vw;top:26vh">
-  <p class="texto" style="position:absolute;top:8vh;left:7vw">La sal es el factor que más decide quién vive en cada lugar. Pero el lugar mismo pesa aún más.</p>
-</section>
+  <script>
+    (function () {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-<section class="escena abajo" style="background:var(--ocre)">
-  <div class="circulos" data-vel="0.2" aria-hidden="true"><span></span><span></span></div>
-  <p class="texto"><span class="dato">206&nbsp;de&nbsp;1.374</span>Tipos de microbios compartidos entre aguas salobres e hipersalinas. El resto es propio de cada lugar.</p>
-</section>
+      var textos = document.querySelectorAll('.animar-texto');
+      textos.forEach(function (el) {
+        var palabras = el.innerText.trim().split(/\s+/);
+        el.innerHTML = palabras.map(function (palabra, i) {
+          return '<span class="palabra" style="transition-delay:' + (i * 0.045).toFixed(3) + 's;">' + palabra + ' </span>';
+        }).join('');
+      });
 
-<section class="escena centro" style="background:var(--turquesa)">
-  <p class="texto">Laguna Verde es la más distinta de todas: una comunidad propia, moldeada por el calor.</p>
-</section>
+      var piezas = Array.prototype.slice.call(document.querySelectorAll('[data-speed]'));
+      var ticking = false;
 
-<!-- Lo que hacen -->
-<section class="escena abajo" style="background:var(--turquesa)">
-  <img class="recorte" data-vel="0.4" src="img/bacterias_verdes.webp" alt="Bacterias fotosintéticas" style="width:min(80vw,620px);right:-8vw;top:6vh">
-  <p class="texto">Donde hay menos sal, los microbios hacen fotosíntesis y procesan nitrógeno.</p>
-</section>
+      function render() {
+        var vh = window.innerHeight;
 
-<section class="escena centro" style="background:var(--azul)">
-  <p class="texto">Donde hay más sal, predominan los que obtienen energía de compuestos químicos, sin depender de la luz.<small>El ciclo del azufre, en cambio, ocurre en casi todas las lagunas, saladas o no.</small></p>
-</section>
+        piezas.forEach(function (el) {
+          var rect = el.getBoundingClientRect();
+          if (rect.bottom >= -150 && rect.top <= vh + 150) {
+            var speed = parseFloat(el.dataset.speed);
+            var rot = parseFloat(el.dataset.rot || 0);
+            var delta = (rect.top - vh * 0.5) * speed;
+            var rotStr = rot ? ' rotate(' + (rot + delta * 0.03) + 'deg)' : '';
+            el.style.transform = 'translate3d(0, ' + delta.toFixed(1) + 'px, 0)' + rotStr;
+          }
+        });
 
-<section class="escena abajo" style="background:var(--azul)">
-  <svg class="red" viewBox="0 0 400 260" aria-hidden="true" data-vel="0.15">
-    <g stroke="#fff" stroke-opacity=".55" stroke-width="1.5">
-      <line x1="60" y1="60" x2="200" y2="120"/><line x1="200" y1="120" x2="340" y2="50"/><line x1="200" y1="120" x2="320" y2="210"/>
-      <line x1="200" y1="120" x2="90" y2="210"/><line x1="60" y1="60" x2="140" y2="30"/><line x1="340" y1="50" x2="380" y2="140"/>
-      <line x1="90" y1="210" x2="30" y2="160"/><line x1="320" y1="210" x2="380" y2="140"/><line x1="140" y1="30" x2="200" y2="120"/>
-    </g>
-    <g fill="#fff"><circle cx="140" cy="30" r="6"/><circle cx="30" cy="160" r="6"/><circle cx="380" cy="140" r="6"/></g>
-    <g fill="var(--turquesa)"><circle cx="60" cy="60" r="12"/><circle cx="340" cy="50" r="12"/><circle cx="90" cy="210" r="12"/><circle cx="320" cy="210" r="12"/></g>
-    <circle cx="200" cy="120" r="20" fill="var(--rosa)"/>
-  </svg>
-  <p class="texto">Un pequeño grupo de especies clave conecta toda la red, de laguna en laguna.</p>
-</section>
+        textos.forEach(function (el) {
+          var rect = el.getBoundingClientRect();
+          if (rect.top < vh * 0.80 && rect.bottom > vh * 0.15) {
+            el.classList.add('revelado');
+          } else if (rect.top > vh * 0.95 || rect.bottom < 0) {
+            el.classList.remove('revelado');
+          }
+        });
 
-<!-- Para la flora y la fauna -->
-<section class="escena centro" style="background:var(--ocre)">
-  <p class="texto">Al hacer fotosíntesis y reciclar nitrógeno y azufre, los microbios son la base de la vida en las lagunas.<small>De esa base viven pequeños invertebrados, y de ellos, los flamencos que se alimentan en estas aguas.</small></p>
-</section>
+        ticking = false;
+      }
 
-<section class="escena centro" style="background:var(--rosa)">
-  <p class="texto">Flamencos, vicuñas, guanacos y aves migratorias dependen de estas lagunas y de las vegas que las rodean.</p>
-</section>
+      window.addEventListener('scroll', function () {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(render);
+        }
+      }, { passive: true });
 
-<!-- Cierre -->
-<section class="escena cierre" style="background:var(--azul)">
-  <p class="texto">Conocer lo que hay ahí es el primer paso para comprender y valorar este ecosistema.</p>
-  <img class="logo" src="img/OASIS_logoblanco.webp" alt="OASIS">
-  <p class="creditos">Basado en el artículo publicado en Frontiers in Microbiology (2026) por el Proyecto Anillo ANID ATE240015 OASIS, Universidad del Desarrollo. Prototipo de maqueta.</p>
-</section>
-
-<script>
-(function(){
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var els = Array.prototype.slice.call(document.querySelectorAll('[data-vel]'));
-  var base = els.map(function(el){ return el.style.transform || ''; });
-  var ticking = false;
-  function update(){
-    var vh = window.innerHeight;
-    els.forEach(function(el, i){
-      var sec = el.closest('section'); var r = sec.getBoundingClientRect();
-      if (r.bottom < -vh || r.top > 2 * vh) return;
-      var off = (r.top + r.height / 2 - vh / 2) * -parseFloat(el.dataset.vel);
-      el.style.transform = 'translate3d(0,' + off.toFixed(1) + 'px,0) ' + base[i];
-    });
-    ticking = false;
-  }
-  window.addEventListener('scroll', function(){ if(!ticking){ ticking = true; requestAnimationFrame(update); } }, {passive:true});
-  window.addEventListener('resize', update);
-  update();
-})();
-</script>
+      window.addEventListener('resize', render);
+      render();
+    })();
+  </script>
 </body>
 </html>
